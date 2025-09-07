@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Exeloka</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <div data-component="auth-header"></div>
+
+    <main class="main">
+        <div class="container">
+            <div class="auth-container">
+                <div class="auth-header">
+                    <h1 class="auth-title">Welcome Back</h1>
+                    <p class="auth-subtitle">Sign in to access your cultural wisdom dashboard</p>
+                </div>
+
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="email" class="form-label">Email Address</label>
+                        <input type="email" id="email" name="email" class="form-control" required 
+                               placeholder="Enter your email address">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" id="password" name="password" class="form-control" required 
+                               placeholder="Enter your password">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">
+                        <span class="btn-text">Sign In</span>
+                    </button>
+                </form>
+
+                <a href="register.html" class="auth-link">
+                    Don't have an account? Create one here
+                </a>
+
+                <!-- Demo Login Section -->
+                <div style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--border); text-align: center;">
+                    <h3 style="font-size: 1rem; margin-bottom: 1rem; color: var(--secondary);">Demo Accounts</h3>
+                    <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                        <button type="button" class="btn btn-secondary btn-sm" onclick="demoLogin('admin')">
+                            Admin Demo
+                        </button>
+                        <button type="button" class="btn btn-secondary btn-sm" onclick="demoLogin('user')">
+                            User Demo
+                        </button>
+                    </div>
+                    <p style="margin-top: 0.5rem; font-size: 0.8rem; color: var(--secondary);">
+                        Click to auto-fill demo credentials
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="assets/js/api.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const loginForm = document.getElementById('loginForm');
+            const emailField = document.getElementById('email');
+            const passwordField = document.getElementById('password');
+            
+            loginForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                if (!validateRequired(loginForm)) {
+                    showAlert('Please fill in all required fields', 'danger');
+                    return;
+                }
+                
+                const submitBtn = loginForm.querySelector('button[type="submit"]');
+                const btnText = submitBtn.querySelector('.btn-text');
+                const originalText = btnText.textContent;
+                
+                // Show loading state
+                submitBtn.disabled = true;
+                btnText.textContent = 'Signing In...';
+                
+                try {
+                    const formData = getFormData(loginForm);
+                    const response = await api.login(formData.email, formData.password);
+                    
+                    showAlert('Login successful! Redirecting...', 'success');
+                    
+                    // Store user info in sessionStorage for demo purposes
+                    sessionStorage.setItem('user', JSON.stringify(response.user));
+                    
+                    // Redirect to dashboard
+                    setTimeout(() => {
+                        window.location.href = 'dashboard.html';
+                    }, 1000);
+                    
+                } catch (error) {
+                    showAlert(error.message || 'Login failed', 'danger');
+                    submitBtn.disabled = false;
+                    btnText.textContent = originalText;
+                }
+            });
+        });
+        
+        // Demo login function
+        function demoLogin(type) {
+            const credentials = {
+                admin: {
+                    email: 'admin@sampang.id',
+                    password: 'admin123'
+                },
+                user: {
+                    email: 'user@company.com',
+                    password: 'admin123'
+                }
+            };
+            
+            const cred = credentials[type];
+            if (cred) {
+                document.getElementById('email').value = cred.email;
+                document.getElementById('password').value = cred.password;
+                showAlert(`Demo credentials loaded for ${type}`, 'info');
+            }
+        }
+        
+        // Auto-login for testing (bypass authentication)
+        function quickLogin() {
+            // For testing purposes, simulate successful login
+            const demoUser = {
+                id: 1,
+                email: 'admin@sampang.id',
+                full_name: 'Admin User',
+                company_name: 'Sample Company'
+            };
+            
+            sessionStorage.setItem('user', JSON.stringify(demoUser));
+            showAlert('Quick login successful!', 'success');
+            setTimeout(() => {
+                window.location.href = 'dashboard.html';
+            }, 1000);
+        }
+        
+        // Add quick login button for testing
+        document.addEventListener('DOMContentLoaded', function() {
+            const authContainer = document.querySelector('.auth-container');
+            const quickLoginBtn = document.createElement('button');
+            quickLoginBtn.type = 'button';
+            quickLoginBtn.className = 'btn btn-warning';
+            quickLoginBtn.style.width = '100%';
+            quickLoginBtn.style.marginTop = '1rem';
+            quickLoginBtn.textContent = 'Quick Login (Testing)';
+            quickLoginBtn.onclick = quickLogin;
+            
+            authContainer.appendChild(quickLoginBtn);
+        });
+    </script>
+
+    <div data-component="simple-footer"></div>
+    
+    <script src="includes/components.js"></script>
+</body>
+</html>

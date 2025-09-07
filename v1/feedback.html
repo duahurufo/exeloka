@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Send Feedback - Exeloka</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <a href="index.html" class="logo">Exeloka</a>
+                <nav>
+                    <ul class="nav">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="dashboard.html">Dashboard</a></li>
+                        <li><a href="projects/">Projects</a></li>
+                        <li><a href="knowledge/">Knowledge</a></li>
+                        <li><a href="recommendations/">Recommendations</a></li>
+                    </ul>
+                </nav>
+                <div>
+                    <a href="login.html" class="btn btn-secondary btn-sm">Login</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="container">
+            <div class="page-header" style="text-align: center; margin-bottom: 3rem;">
+                <h1 class="page-title">💭 Send Feedback</h1>
+                <p class="page-subtitle">Help us improve Exeloka with your thoughts and suggestions</p>
+            </div>
+
+            <div class="row">
+                <!-- Feedback Form -->
+                <div class="col-8">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title">Share Your Thoughts</h2>
+                        </div>
+                        <div style="padding: 1.5rem;">
+                            <form id="feedbackForm">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Name (Optional)</label>
+                                        <input type="text" name="name" 
+                                               style="width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 0.375rem; margin-bottom: 1rem;">
+                                    </div>
+                                    <div class="col-6">
+                                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Email (Optional)</label>
+                                        <input type="email" name="email" 
+                                               style="width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 0.375rem; margin-bottom: 1rem;">
+                                    </div>
+                                </div>
+
+                                <div style="margin-bottom: 1rem;">
+                                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Feedback Type</label>
+                                    <select name="feedback_type" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 0.375rem;">
+                                        <option value="">Select feedback type</option>
+                                        <option value="feature_request">💡 Feature Request</option>
+                                        <option value="improvement">⚡ Improvement Suggestion</option>
+                                        <option value="cultural_accuracy">🏛️ Cultural Accuracy</option>
+                                        <option value="user_experience">🎨 User Experience</option>
+                                        <option value="bug_report">🐛 Bug Report</option>
+                                        <option value="performance">⚡ Performance Issue</option>
+                                        <option value="general">💬 General Feedback</option>
+                                    </select>
+                                </div>
+
+                                <div style="margin-bottom: 1rem;">
+                                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Your Feedback</label>
+                                    <textarea name="feedback" rows="6" required 
+                                              placeholder="Tell us what you think! Your feedback helps us build better cultural intelligence tools..."
+                                              style="width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 0.375rem; resize: vertical;"></textarea>
+                                </div>
+
+                                <div style="margin-bottom: 1rem;">
+                                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">How satisfied are you with Exeloka?</label>
+                                    <div style="display: flex; gap: 1rem; align-items: center;">
+                                        <label style="display: flex; align-items: center; gap: 0.5rem;"><input type="radio" name="satisfaction" value="5"> 😍 Love it!</label>
+                                        <label style="display: flex; align-items: center; gap: 0.5rem;"><input type="radio" name="satisfaction" value="4"> 😊 Like it</label>
+                                        <label style="display: flex; align-items: center; gap: 0.5rem;"><input type="radio" name="satisfaction" value="3"> 😐 It's okay</label>
+                                        <label style="display: flex; align-items: center; gap: 0.5rem;"><input type="radio" name="satisfaction" value="2"> 😕 Could be better</label>
+                                        <label style="display: flex; align-items: center; gap: 0.5rem;"><input type="radio" name="satisfaction" value="1"> 😞 Not satisfied</label>
+                                    </div>
+                                </div>
+
+                                <div style="margin-bottom: 1.5rem;">
+                                    <label style="display: flex; align-items: center; gap: 0.5rem;">
+                                        <input type="checkbox" name="follow_up">
+                                        <span>I'm open to follow-up questions about this feedback</span>
+                                    </label>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary btn-lg">Send Feedback</button>
+                                <span id="feedbackStatus" style="margin-left: 1rem; color: var(--success); display: none;"></span>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Feedback Info -->
+                <div class="col-4">
+                    <div class="card" style="margin-bottom: 1.5rem;">
+                        <div class="card-header">
+                            <h3 class="card-title">🎯 What We're Looking For</h3>
+                        </div>
+                        <div style="padding: 1rem;">
+                            <ul style="line-height: 1.8; color: var(--secondary);">
+                                <li><strong>Cultural Accuracy:</strong> Help us improve cultural sensitivity</li>
+                                <li><strong>User Experience:</strong> What's confusing or delightful?</li>
+                                <li><strong>Feature Ideas:</strong> What would make your work easier?</li>
+                                <li><strong>Performance:</strong> Any slow or broken functionality?</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="card" style="margin-bottom: 1.5rem;">
+                        <div class="card-header">
+                            <h3 class="card-title">📊 Recent Improvements</h3>
+                        </div>
+                        <div style="padding: 1rem; font-size: 0.9rem;">
+                            <div style="margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border-light);">
+                                <strong>Enhanced AI Analysis</strong>
+                                <p style="margin: 0; color: var(--secondary);">Based on your feedback about cultural nuances</p>
+                            </div>
+                            <div style="margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border-light);">
+                                <strong>Better Navigation</strong>
+                                <p style="margin: 0; color: var(--secondary);">Simplified project management flow</p>
+                            </div>
+                            <div>
+                                <strong>Mobile Experience</strong>
+                                <p style="margin: 0; color: var(--secondary);">Improved mobile responsiveness</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">💡 Feedback Tips</h3>
+                        </div>
+                        <div style="padding: 1rem; font-size: 0.9rem;">
+                            <ul style="line-height: 1.6; color: var(--secondary);">
+                                <li>Be specific about what you experienced</li>
+                                <li>Include steps to reproduce issues</li>
+                                <li>Mention your browser/device if relevant</li>
+                                <li>Share your cultural context when relevant</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer style="background: var(--dark); color: white; padding: 2rem 0; margin-top: 4rem;">
+        <div class="container">
+            <div class="row">
+                <div class="col-6">
+                    <h3 style="color: white; margin-bottom: 1rem;">Exeloka</h3>
+                    <p style="opacity: 0.8; margin-bottom: 1rem;">
+                        Cultural Wisdom Recommendation System for Sampang, East Java, Indonesia. 
+                        Helping companies navigate cultural complexities and build meaningful community relationships.
+                    </p>
+                </div>
+                <div class="col-3">
+                    <h4 style="color: white; margin-bottom: 1rem;">Quick Links</h4>
+                    <ul style="list-style: none; padding: 0; line-height: 2;">
+                        <li><a href="dashboard.html" style="color: rgba(255,255,255,0.8); text-decoration: none;">Dashboard</a></li>
+                        <li><a href="projects/" style="color: rgba(255,255,255,0.8); text-decoration: none;">Projects</a></li>
+                        <li><a href="knowledge/" style="color: rgba(255,255,255,0.8); text-decoration: none;">Knowledge Base</a></li>
+                        <li><a href="recommendations/" style="color: rgba(255,255,255,0.8); text-decoration: none;">Recommendations</a></li>
+                    </ul>
+                </div>
+                <div class="col-3">
+                    <h4 style="color: white; margin-bottom: 1rem;">Support</h4>
+                    <ul style="list-style: none; padding: 0; line-height: 2;">
+                        <li><a href="help.html" style="color: rgba(255,255,255,0.8); text-decoration: none;">Help Center</a></li>
+                        <li><a href="docs/" style="color: rgba(255,255,255,0.8); text-decoration: none;">Documentation</a></li>
+                        <li><a href="contact.html" style="color: rgba(255,255,255,0.8); text-decoration: none;">Contact Support</a></li>
+                        <li><a href="feedback.html" style="color: rgba(255,255,255,0.8); text-decoration: none;">Feedback</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div style="border-top: 1px solid rgba(255,255,255,0.2); margin-top: 2rem; padding-top: 1rem; text-align: center;">
+                <p style="opacity: 0.6; margin: 0;">
+                    &copy; 2024 Exeloka. All rights reserved. | 
+                    <a href="privacy.html" style="color: rgba(255,255,255,0.6);">Privacy Policy</a> | 
+                    <a href="terms.html" style="color: rgba(255,255,255,0.6);">Terms of Service</a>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('feedbackForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const data = {};
+            for (let [key, value] of formData.entries()) {
+                data[key] = value;
+            }
+            
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Sending...';
+            submitBtn.disabled = true;
+            
+            setTimeout(() => {
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+                
+                const status = document.getElementById('feedbackStatus');
+                status.style.display = 'inline';
+                status.textContent = '🙏 Thank you for your feedback! We really appreciate it.';
+                
+                this.reset();
+                
+                setTimeout(() => {
+                    status.style.display = 'none';
+                }, 5000);
+                
+                console.log('Feedback submitted:', data);
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recommendations - Exeloka</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <a href="../dashboard.html" class="logo">Exeloka</a>
+                <nav>
+                    <ul class="nav">
+                        <li><a href="../dashboard.html">Dashboard</a></li>
+                        <li><a href="../projects/">Projects</a></li>
+                        <li><a href="../knowledge/">Knowledge</a></li>
+                        <li><a href="index.html" class="active">Recommendations</a></li>
+                    </ul>
+                </nav>
+                <div class="user-menu">
+                    <button class="user-btn" onclick="toggleUserMenu()">
+                        <span id="userName">User</span> ▼
+                    </button>
+                    <div id="userDropdown" style="display: none; position: absolute; right: 0; top: 100%; background: white; border: 1px solid var(--border); border-radius: 0.375rem; box-shadow: var(--shadow); min-width: 150px; z-index: 1000;">
+                        <a href="../profile.html" style="display: block; padding: 0.5rem 1rem; text-decoration: none; color: var(--secondary); border-bottom: 1px solid var(--border);">Profile</a>
+                        <a href="#" onclick="logout()" style="display: block; padding: 0.5rem 1rem; text-decoration: none; color: var(--secondary);">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="container">
+            <div class="page-header">
+                <h1 class="page-title">AI Recommendations</h1>
+                <p class="page-subtitle">Cultural wisdom and strategic insights for your Sampang projects</p>
+            </div>
+
+            <!-- Filter Controls -->
+            <div class="card mb-3">
+                <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
+                    <div class="form-group" style="margin-bottom: 0; min-width: 200px;">
+                        <select id="projectFilter" class="form-control form-select">
+                            <option value="">All Projects</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="margin-bottom: 0; min-width: 150px;">
+                        <select id="analysisFilter" class="form-control form-select">
+                            <option value="">All Analysis Types</option>
+                            <option value="quick">Quick Analysis</option>
+                            <option value="enhanced">Enhanced Analysis</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="margin-bottom: 0; min-width: 150px;">
+                        <select id="confidenceFilter" class="form-control form-select">
+                            <option value="">All Confidence Levels</option>
+                            <option value="high">High (80%+)</option>
+                            <option value="medium">Medium (60-79%)</option>
+                            <option value="low">Low (< 60%)</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-secondary" onclick="clearFilters()">Clear Filters</button>
+                </div>
+            </div>
+
+            <!-- Quick Analysis Info -->
+            <div class="card mb-3" style="background: linear-gradient(135deg, var(--primary-light), #f0fdf4); border: 1px solid var(--primary);">
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <div style="font-size: 2rem;">⚡</div>
+                    <div>
+                        <h3 style="margin: 0; color: var(--primary);">Need a New Recommendation?</h3>
+                        <p style="margin: 0.5rem 0; color: var(--dark);">
+                            Generate AI-powered cultural insights for your projects using either Quick Analysis (local rules) or Enhanced Analysis (LLM-powered).
+                        </p>
+                        <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                            <button onclick="showAnalysisModal()" class="btn btn-primary">
+                                🎯 Generate New Recommendation
+                            </button>
+                            <a href="../projects/" class="btn btn-secondary">
+                                📋 View All Projects
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recommendations List -->
+            <div id="recommendationsContainer">
+                <div class="loading" style="text-align: center; padding: 4rem;"></div>
+            </div>
+
+            <!-- Empty State -->
+            <div id="emptyState" style="display: none; text-center; padding: 4rem; color: var(--secondary);">
+                <div style="font-size: 4rem; margin-bottom: 1rem;">💡</div>
+                <h3 style="margin-bottom: 1rem;">No Recommendations Yet</h3>
+                <p style="margin-bottom: 2rem;">Generate your first AI-powered cultural recommendation to get started.</p>
+                <button onclick="showAnalysisModal()" class="btn btn-primary">Generate Recommendation</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Analysis Options Modal -->
+    <div id="analysisModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000;">
+        <div style="display: flex; align-items: center; justify-content: center; height: 100%; padding: 2rem;">
+            <div style="background: white; border-radius: 0.5rem; max-width: 600px; width: 100%; max-height: 90vh; overflow-y: auto;">
+                <div style="padding: 2rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                        <h2 style="margin: 0;">Generate New Recommendation</h2>
+                        <button onclick="hideAnalysisModal()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">×</button>
+                    </div>
+
+                    <form id="analysisForm">
+                        <div class="form-group">
+                            <label class="form-label">Select Project *</label>
+                            <select id="modalProjectSelect" class="form-control form-select" required>
+                                <option value="">Choose a project...</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Analysis Type *</label>
+                            <div style="display: grid; gap: 1rem; margin-top: 0.5rem;">
+                                <label style="display: flex; align-items: start; gap: 1rem; padding: 1rem; border: 2px solid var(--border); border-radius: 0.5rem; cursor: pointer;" class="analysis-option">
+                                    <input type="radio" name="analysis_type" value="quick" style="margin-top: 0.25rem;">
+                                    <div>
+                                        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                                            <strong>⚡ Quick Analysis</strong>
+                                            <span class="badge badge-active">Free</span>
+                                        </div>
+                                        <p style="margin: 0; font-size: 0.9rem; color: var(--secondary);">
+                                            Rule-based analysis using our Sampang cultural knowledge base. Gets results instantly with 75-90% confidence.
+                                        </p>
+                                    </div>
+                                </label>
+                                
+                                <label style="display: flex; align-items: start; gap: 1rem; padding: 1rem; border: 2px solid var(--border); border-radius: 0.5rem; cursor: pointer;" class="analysis-option">
+                                    <input type="radio" name="analysis_type" value="enhanced" style="margin-top: 0.25rem;">
+                                    <div>
+                                        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                                            <strong>🚀 Enhanced Analysis</strong>
+                                            <span class="badge badge-warning">Premium</span>
+                                        </div>
+                                        <p style="margin: 0; font-size: 0.9rem; color: var(--secondary);">
+                                            AI-powered deep analysis with LLM processing. More detailed insights with 85-98% confidence. <em>May take 30-60 seconds and incur costs.</em>
+                                        </p>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="additionalContext" class="form-label">Additional Context (Optional)</label>
+                            <textarea id="additionalContext" class="form-control" rows="3" 
+                                      placeholder="Provide any specific context, constraints, or requirements for this analysis..."></textarea>
+                        </div>
+
+                        <div style="display: flex; justify-content: space-between; gap: 1rem; margin-top: 2rem;">
+                            <button type="button" onclick="hideAnalysisModal()" class="btn btn-secondary">Cancel</button>
+                            <button type="submit" class="btn btn-primary">
+                                <span class="btn-text">🎯 Generate Recommendation</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../assets/js/mock-api.js"></script>
+    <script src="../assets/js/api.js"></script>
+    <script>
+        let allRecommendations = [];
+        let allProjects = [];
+
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Check authentication
+            const user = JSON.parse(sessionStorage.getItem('user') || 'null');
+            if (!user) {
+                window.location.href = '../login.html';
+                return;
+            }
+            
+            document.getElementById('userName').textContent = user.full_name || user.email;
+            
+            // Load data
+            await loadRecommendations();
+            await loadProjects();
+            
+            // Set up event listeners
+            document.getElementById('projectFilter').addEventListener('change', filterRecommendations);
+            document.getElementById('analysisFilter').addEventListener('change', filterRecommendations);
+            document.getElementById('confidenceFilter').addEventListener('change', filterRecommendations);
+            document.getElementById('analysisForm').addEventListener('submit', handleAnalysisSubmit);
+        });
+
+        async function loadRecommendations() {
+            try {
+                const response = await api.getRecommendations();
+                allRecommendations = response.data || [];
+                displayRecommendations(allRecommendations);
+            } catch (error) {
+                console.error('Error loading recommendations:', error);
+                // Show demo recommendations if API fails
+                showDemoRecommendations();
+            }
+        }
+
+        async function loadProjects() {
+            try {
+                const response = await api.getProjects();
+                allProjects = response.data || [];
+                populateProjectFilters();
+            } catch (error) {
+                console.error('Error loading projects:', error);
+                // Show demo projects
+                allProjects = [
+                    {id: 1, title: 'Community Health Center Initiative'},
+                    {id: 2, title: 'Kerapan Sapi Cultural Tourism Development'},
+                    {id: 3, title: 'Islamic Education Center Partnership'}
+                ];
+                populateProjectFilters();
+            }
+        }
+
+        function populateProjectFilters() {
+            const projectFilter = document.getElementById('projectFilter');
+            const modalProjectSelect = document.getElementById('modalProjectSelect');
+            
+            // Clear existing options (except first)
+            projectFilter.innerHTML = '<option value="">All Projects</option>';
+            modalProjectSelect.innerHTML = '<option value="">Choose a project...</option>';
+            
+            allProjects.forEach(project => {
+                const option1 = new Option(project.title, project.id);
+                const option2 = new Option(project.title, project.id);
+                projectFilter.add(option1);
+                modalProjectSelect.add(option2);
+            });
+        }
+
+        function showDemoRecommendations() {
+            allRecommendations = [
+                {
+                    id: 1,
+                    project_title: 'Community Health Center Initiative',
+                    project_type: 'Healthcare',
+                    analysis_type: 'enhanced',
+                    confidence_score: 92,
+                    created_at: '2024-01-15T14:30:00Z',
+                    key_insights: [
+                        'Religious leaders (Kyai) have significant influence over community health decisions',
+                        'Traditional healing practices coexist with modern healthcare approaches',
+                        'Community trust is built through religious endorsement'
+                    ],
+                    recommendations: [
+                        'Engage with local Kyai early in the planning process',
+                        'Create integration pathways between traditional and modern practices',
+                        'Establish a Cultural Advisory Board including religious leaders'
+                    ],
+                    potential_risks: [
+                        'Bypassing religious leadership can lead to community resistance',
+                        'Conflicts between traditional and modern approaches if not managed properly'
+                    ]
+                },
+                {
+                    id: 2,
+                    project_title: 'Kerapan Sapi Cultural Tourism Development',
+                    project_type: 'Cultural/Tourism',
+                    analysis_type: 'quick',
+                    confidence_score: 87,
+                    created_at: '2024-01-12T10:15:00Z',
+                    key_insights: [
+                        'Kerapan Sapi traditions represent community identity and social status',
+                        'Tourism must respect and preserve authentic cultural elements',
+                        'Local community should benefit directly from tourism revenue'
+                    ],
+                    recommendations: [
+                        'Develop tourism in partnership with traditional Kerapan Sapi organizers',
+                        'Ensure authentic presentation without commercialization',
+                        'Create direct economic benefits for bull owners and trainers'
+                    ],
+                    potential_risks: [
+                        'Over-commercialization may diminish cultural authenticity',
+                        'Seasonal nature of Kerapan Sapi may limit tourism potential'
+                    ]
+                }
+            ];
+            displayRecommendations(allRecommendations);
+        }
+
+        function displayRecommendations(recommendations) {
+            const container = document.getElementById('recommendationsContainer');
+            const emptyState = document.getElementById('emptyState');
+
+            if (recommendations.length === 0) {
+                container.style.display = 'none';
+                emptyState.style.display = 'block';
+                return;
+            }
+
+            container.style.display = 'block';
+            emptyState.style.display = 'none';
+
+            const recommendationsHtml = recommendations.map(rec => `
+                <div class="card" style="margin-bottom: 1.5rem; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;" 
+                     onclick="window.location.href='view.html?id=${rec.id}'"
+                     onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.15)'"
+                     onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='var(--shadow)'">
+                    
+                    <!-- Header -->
+                    <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+                        <div style="flex: 1;">
+                            <h3 style="margin: 0 0 0.5rem 0; color: var(--dark);">
+                                💡 ${rec.project_title}
+                            </h3>
+                            <div style="display: flex; gap: 1rem; font-size: 0.875rem; color: var(--secondary);">
+                                <span>📅 ${formatDate(rec.created_at)}</span>
+                                <span>🏷️ ${rec.project_type || 'General'}</span>
+                            </div>
+                        </div>
+                        <div style="display: flex; flex-direction: column; align-items: end; gap: 0.5rem;">
+                            <span class="badge ${rec.analysis_type === 'enhanced' ? 'badge-active' : 'badge-planning'}">
+                                ${rec.analysis_type === 'enhanced' ? '🚀 Enhanced' : '⚡ Quick'} Analysis
+                            </span>
+                            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                <span style="font-size: 0.875rem; color: var(--secondary);">Confidence:</span>
+                                <span style="font-weight: bold; color: ${getConfidenceColor(rec.confidence_score)};">
+                                    ${Math.round(rec.confidence_score)}%
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Key Insights Preview -->
+                    <div style="margin-bottom: 1.5rem;">
+                        <h4 style="margin: 0 0 0.75rem 0; color: var(--primary); font-size: 1rem;">🔍 Key Insights</h4>
+                        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                            ${(rec.key_insights || []).slice(0, 2).map(insight => `
+                                <div style="display: flex; align-items: start; gap: 0.5rem;">
+                                    <span style="color: var(--primary); margin-top: 0.125rem;">•</span>
+                                    <span style="font-size: 0.9rem; color: var(--dark); line-height: 1.4;">${insight}</span>
+                                </div>
+                            `).join('')}
+                            ${(rec.key_insights || []).length > 2 ? `
+                                <span style="font-size: 0.875rem; color: var(--secondary); font-style: italic;">
+                                    +${(rec.key_insights || []).length - 2} more insights...
+                                </span>
+                            ` : ''}
+                        </div>
+                    </div>
+
+                    <!-- Recommendations Preview -->
+                    <div style="margin-bottom: 1.5rem;">
+                        <h4 style="margin: 0 0 0.75rem 0; color: var(--primary); font-size: 1rem;">💡 Top Recommendations</h4>
+                        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                            ${(rec.recommendations || []).slice(0, 2).map(recommendation => `
+                                <div style="display: flex; align-items: start; gap: 0.5rem;">
+                                    <span style="color: var(--success); margin-top: 0.125rem;">✓</span>
+                                    <span style="font-size: 0.9rem; color: var(--dark); line-height: 1.4;">${recommendation}</span>
+                                </div>
+                            `).join('')}
+                            ${(rec.recommendations || []).length > 2 ? `
+                                <span style="font-size: 0.875rem; color: var(--secondary); font-style: italic;">
+                                    +${(rec.recommendations || []).length - 2} more recommendations...
+                                </span>
+                            ` : ''}
+                        </div>
+                    </div>
+
+                    <!-- Action Footer -->
+                    <div style="display: flex; justify-content: between; align-items: center; padding-top: 1rem; border-top: 1px solid var(--border); font-size: 0.875rem; color: var(--secondary);">
+                        <span>Click to view full analysis and cultural context →</span>
+                        <div style="display: flex; gap: 1rem;">
+                            ${rec.potential_risks && rec.potential_risks.length > 0 ? `
+                                <span>⚠️ ${rec.potential_risks.length} risk${rec.potential_risks.length > 1 ? 's' : ''} identified</span>
+                            ` : ''}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            container.innerHTML = recommendationsHtml;
+        }
+
+        function getConfidenceColor(score) {
+            if (score >= 80) return 'var(--success)';
+            if (score >= 60) return 'var(--warning)';
+            return 'var(--danger)';
+        }
+
+        function filterRecommendations() {
+            const projectFilter = document.getElementById('projectFilter').value;
+            const analysisFilter = document.getElementById('analysisFilter').value;
+            const confidenceFilter = document.getElementById('confidenceFilter').value;
+
+            const filteredRecommendations = allRecommendations.filter(rec => {
+                const matchesProject = !projectFilter || rec.project_id == projectFilter;
+                const matchesAnalysis = !analysisFilter || rec.analysis_type === analysisFilter;
+                
+                let matchesConfidence = true;
+                if (confidenceFilter === 'high') matchesConfidence = rec.confidence_score >= 80;
+                else if (confidenceFilter === 'medium') matchesConfidence = rec.confidence_score >= 60 && rec.confidence_score < 80;
+                else if (confidenceFilter === 'low') matchesConfidence = rec.confidence_score < 60;
+
+                return matchesProject && matchesAnalysis && matchesConfidence;
+            });
+
+            displayRecommendations(filteredRecommendations);
+        }
+
+        function clearFilters() {
+            document.getElementById('projectFilter').value = '';
+            document.getElementById('analysisFilter').value = '';
+            document.getElementById('confidenceFilter').value = '';
+            displayRecommendations(allRecommendations);
+        }
+
+        function showAnalysisModal() {
+            document.getElementById('analysisModal').style.display = 'block';
+        }
+
+        function hideAnalysisModal() {
+            document.getElementById('analysisModal').style.display = 'none';
+        }
+
+        async function handleAnalysisSubmit(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const data = {
+                project_id: formData.get('project_id') || document.getElementById('modalProjectSelect').value,
+                analysis_type: formData.get('analysis_type'),
+                additional_context: document.getElementById('additionalContext').value
+            };
+
+            if (!data.project_id || !data.analysis_type) {
+                showAlert('Please select both project and analysis type', 'danger');
+                return;
+            }
+
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            const btnText = submitBtn.querySelector('.btn-text');
+            const originalText = btnText.textContent;
+
+            // Show loading state
+            submitBtn.disabled = true;
+            btnText.textContent = data.analysis_type === 'enhanced' ? 
+                '🔄 Generating Enhanced Analysis...' : '⚡ Generating Quick Analysis...';
+
+            try {
+                const response = await api.generateRecommendation(data);
+                
+                showAlert(`${data.analysis_type === 'enhanced' ? 'Enhanced' : 'Quick'} analysis generated successfully!`, 'success');
+                
+                hideAnalysisModal();
+                
+                // Redirect to view the new recommendation
+                setTimeout(() => {
+                    window.location.href = `view.html?id=${response.data.id}`;
+                }, 1500);
+                
+            } catch (error) {
+                showAlert(error.message || 'Failed to generate recommendation', 'danger');
+                submitBtn.disabled = false;
+                btnText.textContent = originalText;
+            }
+        }
+
+        function toggleUserMenu() {
+            const dropdown = document.getElementById('userDropdown');
+            dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function logout() {
+            sessionStorage.removeItem('user');
+            window.location.href = '../login.html';
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            const userMenu = document.querySelector('.user-menu');
+            const dropdown = document.getElementById('userDropdown');
+            if (!userMenu.contains(event.target)) {
+                dropdown.style.display = 'none';
+            }
+        });
+
+        // Style analysis options
+        document.addEventListener('DOMContentLoaded', function() {
+            const analysisOptions = document.querySelectorAll('.analysis-option');
+            analysisOptions.forEach(option => {
+                const radio = option.querySelector('input[type="radio"]');
+                radio.addEventListener('change', function() {
+                    analysisOptions.forEach(opt => {
+                        opt.style.borderColor = 'var(--border)';
+                        opt.style.backgroundColor = 'white';
+                    });
+                    if (this.checked) {
+                        option.style.borderColor = 'var(--primary)';
+                        option.style.backgroundColor = 'var(--primary-light)';
+                    }
+                });
+            });
+        });
+    </script>
+
+    <div data-component="footer"></div>
+    
+    <script src="../assets/js/tensorflow.min.js"></script>
+    <script src="../assets/js/cultural-analysis.js"></script>
+    <script src="../includes/components.js"></script>
+</body>
+</html>

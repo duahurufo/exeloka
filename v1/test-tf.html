@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TensorFlow.js Test</title>
+</head>
+<body>
+    <h1>TensorFlow.js Loading Test</h1>
+    <div id="status">Loading...</div>
+    <div id="version"></div>
+    
+    <script src="assets/js/tensorflow.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const statusDiv = document.getElementById('status');
+            const versionDiv = document.getElementById('version');
+            
+            if (typeof tf !== 'undefined') {
+                statusDiv.innerHTML = '<span style="color: green;">✅ TensorFlow.js loaded successfully!</span>';
+                versionDiv.innerHTML = `<strong>Version:</strong> ${tf.version.tfjs}`;
+                
+                // Test basic functionality
+                const tensor = tf.tensor([1, 2, 3, 4]);
+                console.log('TensorFlow.js test tensor:', tensor);
+                console.log('TensorFlow.js backend:', tf.getBackend());
+            } else {
+                statusDiv.innerHTML = '<span style="color: red;">❌ TensorFlow.js failed to load</span>';
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - Exeloka</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <div data-component="header" data-current="profile"></div>
+
+    <main class="main">
+        <div class="container">
+            <div class="page-header">
+                <h1 class="page-title">User Profile</h1>
+                <p class="page-subtitle">Manage your account settings and cultural engagement preferences</p>
+            </div>
+
+            <div class="row">
+                <!-- Profile Information -->
+                <div class="col-8">
+                    <div class="card">
+                        <h2 style="margin-bottom: 1.5rem; color: var(--dark);">Personal Information</h2>
+                        
+                        <form id="profileForm">
+                            <div class="form-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
+                                <div class="form-group">
+                                    <label for="fullName" class="form-label">Full Name *</label>
+                                    <input type="text" id="fullName" name="full_name" class="form-control" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="email" class="form-label">Email Address *</label>
+                                    <input type="email" id="email" name="email" class="form-control" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group" style="margin-bottom: 1.5rem;">
+                                <label for="companyName" class="form-label">Company/Organization *</label>
+                                <input type="text" id="companyName" name="company_name" class="form-control" required>
+                            </div>
+
+                            <div class="form-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
+                                <div class="form-group">
+                                    <label for="jobTitle" class="form-label">Job Title</label>
+                                    <input type="text" id="jobTitle" name="job_title" class="form-control" placeholder="e.g., Project Manager">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="phone" class="form-label">Phone Number</label>
+                                    <input type="tel" id="phone" name="phone" class="form-control" placeholder="+62 xxx xxxx xxxx">
+                                </div>
+                            </div>
+
+                            <div class="form-group" style="margin-bottom: 2rem;">
+                                <label for="bio" class="form-label">Professional Background</label>
+                                <textarea id="bio" name="bio" class="form-control" rows="4" 
+                                         placeholder="Brief description of your professional background and experience with cultural projects..."></textarea>
+                            </div>
+
+                            <div style="display: flex; gap: 1rem;">
+                                <button type="submit" class="btn btn-primary">
+                                    💾 Update Profile
+                                </button>
+                                <button type="button" onclick="resetForm()" class="btn btn-secondary">
+                                    🔄 Reset Changes
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Cultural Preferences -->
+                    <div class="card" style="margin-top: 2rem;">
+                        <h2 style="margin-bottom: 1.5rem; color: var(--dark);">Cultural Engagement Preferences</h2>
+                        
+                        <form id="preferencesForm">
+                            <div class="form-group" style="margin-bottom: 1.5rem;">
+                                <label class="form-label">Areas of Interest (Select all that apply)</label>
+                                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 0.5rem; margin-top: 0.5rem;">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" name="interests[]" value="Religious Leadership"> 
+                                        🕌 Religious Leadership (Kyai)
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" name="interests[]" value="Traditional Governance"> 
+                                        🏛️ Traditional Governance
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" name="interests[]" value="Cultural Traditions"> 
+                                        🎭 Cultural Traditions
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" name="interests[]" value="Kerapan Sapi"> 
+                                        🐂 Kerapan Sapi Traditions
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" name="interests[]" value="Community Development"> 
+                                        🏘️ Community Development
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" name="interests[]" value="Economic Development"> 
+                                        💼 Economic Development
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group" style="margin-bottom: 1.5rem;">
+                                <label for="experienceLevel" class="form-label">Experience with Sampang Culture</label>
+                                <select id="experienceLevel" name="experience_level" class="form-control">
+                                    <option value="">Select your experience level...</option>
+                                    <option value="beginner">🌱 Beginner - New to Sampang cultural engagement</option>
+                                    <option value="intermediate">🌿 Intermediate - Some experience with local customs</option>
+                                    <option value="advanced">🌳 Advanced - Extensive experience with Sampang community</option>
+                                    <option value="expert">🎯 Expert - Deep cultural understanding and connections</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group" style="margin-bottom: 2rem;">
+                                <label class="form-label">Preferred Analysis Type</label>
+                                <div style="display: flex; gap: 1rem; margin-top: 0.5rem;">
+                                    <label class="radio-label">
+                                        <input type="radio" name="preferred_analysis" value="quick" checked>
+                                        ⚡ Quick Analysis (TensorFlow.js)
+                                    </label>
+                                    <label class="radio-label">
+                                        <input type="radio" name="preferred_analysis" value="enhanced">
+                                        🚀 Enhanced Analysis (LLM-powered)
+                                    </label>
+                                    <label class="radio-label">
+                                        <input type="radio" name="preferred_analysis" value="both">
+                                        🎯 Both (Comprehensive)
+                                    </label>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">
+                                ⚙️ Save Preferences
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Profile Summary & Stats -->
+                <div class="col-4">
+                    <!-- Profile Card -->
+                    <div class="card" style="text-align: center;">
+                        <div style="background: linear-gradient(135deg, var(--primary), var(--primary-hover)); color: white; margin: -1.5rem -1.5rem 1.5rem -1.5rem; padding: 2rem; border-radius: 0.75rem 0.75rem 0 0;">
+                            <div style="width: 80px; height: 80px; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-size: 2rem;">
+                                👤
+                            </div>
+                            <h3 id="displayName" style="margin: 0 0 0.5rem 0;">User Name</h3>
+                            <p id="displayCompany" style="opacity: 0.9; margin: 0;">Company Name</p>
+                        </div>
+                        
+                        <div style="text-align: left;">
+                            <h4 style="color: var(--dark); margin-bottom: 1rem;">Account Summary</h4>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <span style="color: var(--secondary);">Member Since:</span>
+                                <span id="memberSince">Jan 2024</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <span style="color: var(--secondary);">Projects Created:</span>
+                                <span id="projectCount">0</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <span style="color: var(--secondary);">Recommendations Generated:</span>
+                                <span id="recommendationCount">0</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between;">
+                                <span style="color: var(--secondary);">Cultural Expertise Level:</span>
+                                <span id="expertiseLevel">Beginner</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Actions -->
+                    <div class="card" style="margin-top: 1.5rem;">
+                        <h4 style="color: var(--dark); margin-bottom: 1rem;">Quick Actions</h4>
+                        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                            <a href="projects/new.html" class="btn btn-primary" style="text-decoration: none;">
+                                ➕ New Project
+                            </a>
+                            <a href="knowledge/" class="btn btn-secondary" style="text-decoration: none;">
+                                📚 Browse Knowledge
+                            </a>
+                            <a href="recommendations/" class="btn btn-secondary" style="text-decoration: none;">
+                                🎯 Generate Analysis
+                            </a>
+                            <button onclick="exportData()" class="btn btn-outline">
+                                📄 Export My Data
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Security Settings -->
+                    <div class="card" style="margin-top: 1.5rem;">
+                        <h4 style="color: var(--dark); margin-bottom: 1rem;">Security</h4>
+                        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                            <button onclick="changePassword()" class="btn btn-secondary">
+                                🔒 Change Password
+                            </button>
+                            <button onclick="downloadBackup()" class="btn btn-secondary">
+                                💾 Download Data Backup
+                            </button>
+                            <button onclick="deleteAccount()" class="btn" style="background: var(--danger); color: white;">
+                                🗑️ Delete Account
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div data-component="footer"></div>
+
+    <script src="assets/js/tensorflow.min.js"></script>
+    <script src="assets/js/cultural-analysis.js"></script>
+    <script src="assets/js/api.js"></script>
+    <script src="includes/components.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check authentication
+            const user = JSON.parse(sessionStorage.getItem('user') || 'null');
+            if (!user) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            loadUserProfile(user);
+            loadUserStats(user);
+            
+            // Set up form handlers
+            document.getElementById('profileForm').addEventListener('submit', handleProfileUpdate);
+            document.getElementById('preferencesForm').addEventListener('submit', handlePreferencesUpdate);
+        });
+
+        function loadUserProfile(user) {
+            // Populate profile form with user data
+            document.getElementById('fullName').value = user.full_name || '';
+            document.getElementById('email').value = user.email || '';
+            document.getElementById('companyName').value = user.company_name || '';
+            
+            // Update display elements
+            document.getElementById('displayName').textContent = user.full_name || user.email;
+            document.getElementById('displayCompany').textContent = user.company_name || 'No company specified';
+            
+            // Load additional profile data from localStorage or API
+            const profileData = JSON.parse(localStorage.getItem('profileData') || '{}');
+            if (profileData.job_title) document.getElementById('jobTitle').value = profileData.job_title;
+            if (profileData.phone) document.getElementById('phone').value = profileData.phone;
+            if (profileData.bio) document.getElementById('bio').value = profileData.bio;
+            if (profileData.experience_level) document.getElementById('experienceLevel').value = profileData.experience_level;
+            
+            // Load interests
+            if (profileData.interests) {
+                profileData.interests.forEach(interest => {
+                    const checkbox = document.querySelector(`input[value="${interest}"]`);
+                    if (checkbox) checkbox.checked = true;
+                });
+            }
+            
+            // Load preferred analysis
+            if (profileData.preferred_analysis) {
+                const radio = document.querySelector(`input[value="${profileData.preferred_analysis}"]`);
+                if (radio) radio.checked = true;
+            }
+        }
+
+        function loadUserStats(user) {
+            // Load user statistics (from localStorage for demo)
+            const stats = JSON.parse(localStorage.getItem('userStats') || '{}');
+            
+            document.getElementById('projectCount').textContent = stats.projects || '0';
+            document.getElementById('recommendationCount').textContent = stats.recommendations || '0';
+            document.getElementById('expertiseLevel').textContent = stats.expertise || 'Beginner';
+            document.getElementById('memberSince').textContent = stats.memberSince || 'Jan 2024';
+        }
+
+        async function handleProfileUpdate(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const profileData = {
+                full_name: formData.get('full_name'),
+                email: formData.get('email'),
+                company_name: formData.get('company_name'),
+                job_title: formData.get('job_title'),
+                phone: formData.get('phone'),
+                bio: formData.get('bio')
+            };
+
+            try {
+                // Save to localStorage for demo (in production, send to API)
+                const existingData = JSON.parse(localStorage.getItem('profileData') || '{}');
+                const updatedData = { ...existingData, ...profileData };
+                localStorage.setItem('profileData', JSON.stringify(updatedData));
+                
+                // Update session data
+                const user = JSON.parse(sessionStorage.getItem('user'));
+                user.full_name = profileData.full_name;
+                user.email = profileData.email;
+                user.company_name = profileData.company_name;
+                sessionStorage.setItem('user', JSON.stringify(user));
+                
+                showAlert('Profile updated successfully!', 'success');
+                
+                // Refresh display
+                loadUserProfile(user);
+                
+            } catch (error) {
+                showAlert('Failed to update profile: ' + error.message, 'danger');
+            }
+        }
+
+        async function handlePreferencesUpdate(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const interests = formData.getAll('interests[]');
+            
+            const preferencesData = {
+                interests: interests,
+                experience_level: formData.get('experience_level'),
+                preferred_analysis: formData.get('preferred_analysis')
+            };
+
+            try {
+                // Save preferences to localStorage for demo
+                const existingData = JSON.parse(localStorage.getItem('profileData') || '{}');
+                const updatedData = { ...existingData, ...preferencesData };
+                localStorage.setItem('profileData', JSON.stringify(updatedData));
+                
+                showAlert('Preferences saved successfully!', 'success');
+                
+            } catch (error) {
+                showAlert('Failed to save preferences: ' + error.message, 'danger');
+            }
+        }
+
+        function resetForm() {
+            const user = JSON.parse(sessionStorage.getItem('user'));
+            loadUserProfile(user);
+            showAlert('Form reset to last saved values', 'info');
+        }
+
+        function changePassword() {
+            const newPassword = prompt('Enter new password (minimum 8 characters):');
+            if (newPassword && newPassword.length >= 8) {
+                // In production, send to API
+                showAlert('Password changed successfully! Please log in again.', 'success');
+                setTimeout(() => {
+                    sessionStorage.removeItem('user');
+                    window.location.href = 'login.html';
+                }, 2000);
+            } else if (newPassword !== null) {
+                showAlert('Password must be at least 8 characters long', 'danger');
+            }
+        }
+
+        function exportData() {
+            const user = JSON.parse(sessionStorage.getItem('user'));
+            const profileData = JSON.parse(localStorage.getItem('profileData') || '{}');
+            const stats = JSON.parse(localStorage.getItem('userStats') || '{}');
+            
+            const exportData = {
+                user: user,
+                profile: profileData,
+                stats: stats,
+                exported_at: new Date().toISOString()
+            };
+            
+            const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `exeloka-profile-${user.email}-${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            showAlert('Profile data exported successfully!', 'success');
+        }
+
+        function downloadBackup() {
+            showAlert('Backup download will be available in the full version', 'info');
+        }
+
+        function deleteAccount() {
+            if (confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
+                if (confirm('This will permanently delete all your projects and data. Are you absolutely sure?')) {
+                    // In production, call API to delete account
+                    localStorage.clear();
+                    sessionStorage.clear();
+                    showAlert('Account deleted successfully', 'success');
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 2000);
+                }
+            }
+        }
+    </script>
+
+    <style>
+        .checkbox-label, .radio-label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            border: 1px solid var(--border);
+            border-radius: 0.375rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .checkbox-label:hover, .radio-label:hover {
+            background: var(--light);
+            border-color: var(--primary);
+        }
+
+        .checkbox-label input:checked + span,
+        .radio-label input:checked + span {
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        .form-grid {
+            display: grid;
+            gap: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .row {
+                flex-direction: column;
+            }
+            
+            .col-8, .col-4 {
+                width: 100%;
+            }
+            
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</body>
+</html>

@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help Center - Exeloka</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <a href="index.html" class="logo">Exeloka</a>
+                <nav>
+                    <ul class="nav">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="dashboard.html">Dashboard</a></li>
+                        <li><a href="projects/">Projects</a></li>
+                        <li><a href="knowledge/">Knowledge</a></li>
+                        <li><a href="recommendations/">Recommendations</a></li>
+                    </ul>
+                </nav>
+                <div>
+                    <a href="login.html" class="btn btn-secondary btn-sm">Login</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="container">
+            <div class="page-header" style="text-align: center; margin-bottom: 3rem;">
+                <h1 class="page-title">Help Center</h1>
+                <p class="page-subtitle">Get help using Exeloka's Cultural Wisdom Recommendation System</p>
+            </div>
+
+            <!-- Search -->
+            <div style="max-width: 600px; margin: 0 auto 3rem;">
+                <div style="position: relative;">
+                    <input type="text" placeholder="Search for help topics..." 
+                           style="width: 100%; padding: 1rem 3rem 1rem 1rem; border: 1px solid var(--border); border-radius: 0.5rem; font-size: 1.1rem;">
+                    <button style="position: absolute; right: 0.5rem; top: 50%; transform: translateY(-50%); background: none; border: none; padding: 0.5rem; cursor: pointer;">
+                        🔍
+                    </button>
+                </div>
+            </div>
+
+            <div class="row">
+                <!-- Getting Started -->
+                <div class="col-6">
+                    <div class="card" style="margin-bottom: 2rem;">
+                        <div class="card-header">
+                            <h2 class="card-title">🚀 Getting Started</h2>
+                        </div>
+                        <div style="padding: 1rem;">
+                            <ul style="list-style: none; padding: 0; line-height: 2;">
+                                <li><a href="#quick-start" style="text-decoration: none;">Quick Start Guide</a></li>
+                                <li><a href="#first-project" style="text-decoration: none;">Creating Your First Project</a></li>
+                                <li><a href="#knowledge-base" style="text-decoration: none;">Building Your Knowledge Base</a></li>
+                                <li><a href="#recommendations" style="text-decoration: none;">Understanding Recommendations</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Features -->
+                    <div class="card" style="margin-bottom: 2rem;">
+                        <div class="card-header">
+                            <h2 class="card-title">⚡ Features</h2>
+                        </div>
+                        <div style="padding: 1rem;">
+                            <ul style="list-style: none; padding: 0; line-height: 2;">
+                                <li><a href="#projects" style="text-decoration: none;">Project Management</a></li>
+                                <li><a href="#cultural-analysis" style="text-decoration: none;">AI Cultural Analysis</a></li>
+                                <li><a href="#knowledge-management" style="text-decoration: none;">Knowledge Management</a></li>
+                                <li><a href="#recommendation-engine" style="text-decoration: none;">Recommendation Engine</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQs -->
+                <div class="col-6">
+                    <div class="card" style="margin-bottom: 2rem;">
+                        <div class="card-header">
+                            <h2 class="card-title">❓ Frequently Asked Questions</h2>
+                        </div>
+                        <div style="padding: 1rem;">
+                            <div class="faq-item" style="margin-bottom: 1.5rem;">
+                                <h4 style="color: var(--dark); margin-bottom: 0.5rem;">How does the AI cultural analysis work?</h4>
+                                <p style="color: var(--secondary); line-height: 1.6;">Our system uses TensorFlow.js for quick analysis and OpenRouter API for advanced cultural understanding. It analyzes your project context and provides culturally-sensitive recommendations.</p>
+                            </div>
+                            <div class="faq-item" style="margin-bottom: 1.5rem;">
+                                <h4 style="color: var(--dark); margin-bottom: 0.5rem;">What types of documents can I upload?</h4>
+                                <p style="color: var(--secondary); line-height: 1.6;">You can upload PDFs, images (for OCR), and provide URLs. The system automatically extracts content and analyzes it for cultural insights.</p>
+                            </div>
+                            <div class="faq-item" style="margin-bottom: 1.5rem;">
+                                <h4 style="color: var(--dark); margin-bottom: 0.5rem;">Is my data secure?</h4>
+                                <p style="color: var(--secondary); line-height: 1.6;">Yes, we follow best security practices with encrypted connections, secure authentication, and privacy-first data handling.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Contact Support -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title">💬 Need More Help?</h2>
+                        </div>
+                        <div style="padding: 1rem;">
+                            <p style="margin-bottom: 1rem;">Can't find what you're looking for? Get in touch with our support team.</p>
+                            <div style="display: flex; gap: 1rem;">
+                                <a href="contact.html" class="btn btn-primary">Contact Support</a>
+                                <a href="feedback.html" class="btn btn-secondary">Send Feedback</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Detailed Guides -->
+            <div style="margin-top: 3rem;">
+                <h2 id="quick-start" style="color: var(--dark); margin-bottom: 1rem; border-bottom: 2px solid var(--primary); padding-bottom: 0.5rem;">🚀 Quick Start Guide</h2>
+                <div class="card" style="margin-bottom: 2rem;">
+                    <div style="padding: 1.5rem;">
+                        <ol style="padding-left: 1.5rem; line-height: 1.8;">
+                            <li><strong>Create an Account:</strong> Register with your email and verify your account</li>
+                            <li><strong>Set Up Your Profile:</strong> Add your organization details and cultural context</li>
+                            <li><strong>Create Your First Project:</strong> Define your project goals, stakeholders, and cultural considerations</li>
+                            <li><strong>Upload Knowledge Sources:</strong> Add relevant documents, research, or cultural guidelines</li>
+                            <li><strong>Get AI Recommendations:</strong> Our system will analyze your project and provide culturally-appropriate suggestions</li>
+                            <li><strong>Implement & Track:</strong> Use recommendations to guide your project and track progress</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <h2 id="cultural-analysis" style="color: var(--dark); margin-bottom: 1rem; border-bottom: 2px solid var(--primary); padding-bottom: 0.5rem;">🧠 Understanding AI Cultural Analysis</h2>
+                <div class="card" style="margin-bottom: 2rem;">
+                    <div style="padding: 1.5rem;">
+                        <div class="row">
+                            <div class="col-6">
+                                <h4>Quick Analysis (TensorFlow.js)</h4>
+                                <ul style="color: var(--secondary); line-height: 1.6;">
+                                    <li>Real-time cultural context detection</li>
+                                    <li>Sentiment and cultural sensitivity analysis</li>
+                                    <li>Basic recommendation categorization</li>
+                                    <li>Instant feedback on cultural appropriateness</li>
+                                </ul>
+                            </div>
+                            <div class="col-6">
+                                <h4>Advanced Analysis (OpenRouter)</h4>
+                                <ul style="color: var(--secondary); line-height: 1.6;">
+                                    <li>Deep cultural pattern recognition</li>
+                                    <li>Comprehensive stakeholder analysis</li>
+                                    <li>Detailed risk assessment</li>
+                                    <li>Culturally-nuanced recommendations</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h2 id="knowledge-management" style="color: var(--dark); margin-bottom: 1rem; border-bottom: 2px solid var(--primary); padding-bottom: 0.5rem;">📚 Knowledge Management Best Practices</h2>
+                <div class="card">
+                    <div style="padding: 1.5rem;">
+                        <h4>Recommended Document Types:</h4>
+                        <ul style="color: var(--secondary); line-height: 1.8; margin-bottom: 1.5rem;">
+                            <li><strong>Cultural Guidelines:</strong> Community protocols, traditional practices, social norms</li>
+                            <li><strong>Research Papers:</strong> Academic studies on local culture, anthropological research</li>
+                            <li><strong>Government Policies:</strong> Local regulations, cultural preservation mandates</li>
+                            <li><strong>Community Feedback:</strong> Stakeholder input, community surveys, consultation notes</li>
+                            <li><strong>Historical Context:</strong> Regional history, cultural evolution, significant events</li>
+                        </ul>
+                        
+                        <h4>Content Quality Tips:</h4>
+                        <ul style="color: var(--secondary); line-height: 1.8;">
+                            <li>Use clear, descriptive titles and tags</li>
+                            <li>Include source citations and date information</li>
+                            <li>Regularly update and review content relevance</li>
+                            <li>Add contextual notes for better AI understanding</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer style="background: var(--dark); color: white; padding: 2rem 0; margin-top: 4rem;">
+        <div class="container">
+            <div class="row">
+                <div class="col-6">
+                    <h3 style="color: white; margin-bottom: 1rem;">Exeloka</h3>
+                    <p style="opacity: 0.8; margin-bottom: 1rem;">
+                        Cultural Wisdom Recommendation System for Sampang, East Java, Indonesia. 
+                        Helping companies navigate cultural complexities and build meaningful community relationships.
+                    </p>
+                    <p style="opacity: 0.6; font-size: 0.9rem;">
+                        Built with cultural sensitivity and community focus in mind.
+                    </p>
+                </div>
+                <div class="col-3">
+                    <h4 style="color: white; margin-bottom: 1rem;">Quick Links</h4>
+                    <ul style="list-style: none; padding: 0; line-height: 2;">
+                        <li><a href="dashboard.html" style="color: rgba(255,255,255,0.8); text-decoration: none;">Dashboard</a></li>
+                        <li><a href="projects/" style="color: rgba(255,255,255,0.8); text-decoration: none;">Projects</a></li>
+                        <li><a href="knowledge/" style="color: rgba(255,255,255,0.8); text-decoration: none;">Knowledge Base</a></li>
+                        <li><a href="recommendations/" style="color: rgba(255,255,255,0.8); text-decoration: none;">Recommendations</a></li>
+                    </ul>
+                </div>
+                <div class="col-3">
+                    <h4 style="color: white; margin-bottom: 1rem;">Support</h4>
+                    <ul style="list-style: none; padding: 0; line-height: 2;">
+                        <li><a href="help.html" style="color: rgba(255,255,255,0.8); text-decoration: none;">Help Center</a></li>
+                        <li><a href="docs/" style="color: rgba(255,255,255,0.8); text-decoration: none;">Documentation</a></li>
+                        <li><a href="contact.html" style="color: rgba(255,255,255,0.8); text-decoration: none;">Contact Support</a></li>
+                        <li><a href="feedback.html" style="color: rgba(255,255,255,0.8); text-decoration: none;">Feedback</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div style="border-top: 1px solid rgba(255,255,255,0.2); margin-top: 2rem; padding-top: 1rem; text-align: center;">
+                <p style="opacity: 0.6; margin: 0;">
+                    &copy; 2024 Exeloka. All rights reserved. | 
+                    <a href="privacy.html" style="color: rgba(255,255,255,0.6);">Privacy Policy</a> | 
+                    <a href="terms.html" style="color: rgba(255,255,255,0.6);">Terms of Service</a>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Simple FAQ toggle functionality
+        document.querySelectorAll('.faq-item h4').forEach(item => {
+            item.style.cursor = 'pointer';
+            item.addEventListener('click', function() {
+                const content = this.nextElementSibling;
+                content.style.display = content.style.display === 'none' ? 'block' : 'none';
+            });
+        });
+
+        // Search functionality
+        const searchInput = document.querySelector('input[placeholder="Search for help topics..."]');
+        searchInput.addEventListener('input', function() {
+            // Simple search highlighting (could be enhanced)
+            const query = this.value.toLowerCase();
+            if (query.length > 2) {
+                console.log('Searching for:', query);
+                // In a real implementation, this would filter content
+            }
+        });
+    </script>
+</body>
+</html>

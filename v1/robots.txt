@@ -1,0 +1,25 @@
+# Exeloka v1 - Robots.txt
+# Cultural Wisdom Recommendation System
+
+User-agent: *
+Disallow: /api/
+Disallow: /database/
+Disallow: /logs/
+Disallow: /temp/
+Disallow: /cache/
+Disallow: /backups/
+Disallow: /uploads/
+Disallow: /includes/
+Disallow: /.env
+Disallow: /.htaccess
+Disallow: /composer.json
+Disallow: /composer.lock
+
+# Allow public pages
+Allow: /
+Allow: /login.html
+Allow: /register.html
+Allow: /assets/
+
+# Sitemap location
+Sitemap: https://yourdomain.com/sitemap.xml

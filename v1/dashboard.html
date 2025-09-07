@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Exeloka</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <a href="dashboard.html" class="logo">Exeloka</a>
+                <nav>
+                    <ul class="nav">
+                        <li><a href="dashboard.html" class="active">Dashboard</a></li>
+                        <li><a href="projects/">Projects</a></li>
+                        <li><a href="knowledge/">Knowledge</a></li>
+                        <li><a href="recommendations/">Recommendations</a></li>
+                    </ul>
+                </nav>
+                <div class="user-menu">
+                    <button class="user-btn" onclick="toggleUserMenu()">
+                        <span id="userName">User</span> ▼
+                    </button>
+                    <div id="userDropdown" style="display: none; position: absolute; right: 0; top: 100%; background: white; border: 1px solid var(--border); border-radius: 0.375rem; box-shadow: var(--shadow); min-width: 150px; z-index: 1000;">
+                        <a href="profile.html" style="display: block; padding: 0.5rem 1rem; text-decoration: none; color: var(--secondary); border-bottom: 1px solid var(--border);">Profile</a>
+                        <a href="#" onclick="logout()" style="display: block; padding: 0.5rem 1rem; text-decoration: none; color: var(--secondary);">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="container">
+            <div class="page-header">
+                <h1 class="page-title">Dashboard</h1>
+                <p class="page-subtitle">Overview of your cultural engagement projects and insights</p>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="dashboard-stats">
+                <div class="stat-card">
+                    <div class="stat-value" id="projectCount">-</div>
+                    <div class="stat-label">Active Projects</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="recommendationCount">-</div>
+                    <div class="stat-label">Recommendations Generated</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="knowledgeCount">-</div>
+                    <div class="stat-label">Knowledge Sources</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="successRate">-%</div>
+                    <div class="stat-label">Average Confidence</div>
+                </div>
+            </div>
+
+            <div class="row">
+                <!-- Recent Projects -->
+                <div class="col-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title">Recent Projects</h2>
+                            <a href="projects/" class="btn btn-secondary btn-sm">View All</a>
+                        </div>
+                        <div id="recentProjects">
+                            <div class="loading"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="col-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title">Quick Actions</h2>
+                        </div>
+                        <div style="display: grid; gap: 1rem;">
+                            <a href="projects/new.html" class="btn btn-primary">
+                                📋 Create New Project
+                            </a>
+                            <a href="knowledge/add.html" class="btn btn-secondary">
+                                📚 Add Knowledge Source
+                            </a>
+                            <a href="recommendations/" class="btn btn-secondary">
+                                💡 View Recommendations
+                            </a>
+                        </div>
+                        
+                        <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border);">
+                            <h3 style="font-size: 1rem; margin-bottom: 1rem; color: var(--dark);">Cultural Focus Areas</h3>
+                            <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+                                <span class="badge badge-planning">Kerapan Sapi</span>
+                                <span class="badge badge-active">Religious Leadership</span>
+                                <span class="badge badge-planning">Community Governance</span>
+                                <span class="badge badge-active">Traditional Economy</span>
+                                <span class="badge badge-planning">Family Networks</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Recent Activity</h2>
+                </div>
+                <div id="recentActivity">
+                    <div class="loading"></div>
+                </div>
+            </div>
+
+            <!-- Cultural Insights -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Cultural Insights</h2>
+                </div>
+                <div style="background: var(--primary-light); padding: 1.5rem; border-radius: 0.375rem; margin-bottom: 1rem;">
+                    <h3 style="color: var(--primary); margin-bottom: 0.5rem;">💡 Today's Insight</h3>
+                    <p style="color: var(--dark); margin-bottom: 0;">
+                        "In Sampang culture, building trust with Kyai (religious leaders) is often the key to successful community engagement. Consider involving local religious authorities early in your project planning."
+                    </p>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+                    <div style="padding: 1rem; border: 1px solid var(--border); border-radius: 0.375rem;">
+                        <h4 style="color: var(--primary); margin-bottom: 0.5rem;">🎯 Key Success Factor</h4>
+                        <p style="font-size: 0.9rem; color: var(--secondary); margin: 0;">
+                            Projects with early community leader engagement show 78% higher success rates.
+                        </p>
+                    </div>
+                    <div style="padding: 1rem; border: 1px solid var(--border); border-radius: 0.375rem;">
+                        <h4 style="color: var(--primary); margin-bottom: 0.5rem;">⚠️ Common Risk</h4>
+                        <p style="font-size: 0.9rem; color: var(--secondary); margin: 0;">
+                            Overlooking traditional decision-making hierarchies can lead to project delays.
+                        </p>
+                    </div>
+                    <div style="padding: 1rem; border: 1px solid var(--border); border-radius: 0.375rem;">
+                        <h4 style="color: var(--primary); margin-bottom: 0.5rem;">📈 Trending Topic</h4>
+                        <p style="font-size: 0.9rem; color: var(--secondary); margin: 0;">
+                            Youth engagement strategies are increasingly important for long-term project sustainability.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="assets/js/mock-api.js"></script>
+    <script src="assets/js/api.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Check authentication with API
+            try {
+                const response = await api.request('/auth.php', { method: 'GET' });
+                const user = response.data.user;
+                
+                // Update sessionStorage with current user
+                sessionStorage.setItem('user', JSON.stringify(user));
+                
+                // Set user name
+                document.getElementById('userName').textContent = user.full_name || user.email;
+                
+                // Load dashboard data
+                await loadDashboardData();
+                
+            } catch (error) {
+                // Authentication failed, redirect to login
+                console.log('Authentication failed:', error.message);
+                sessionStorage.removeItem('user');
+                window.location.href = 'login.html';
+            }
+        });
+
+        async function loadDashboardData() {
+            try {
+                // Load projects
+                const projectsResponse = await api.getProjects();
+                const projects = projectsResponse.data || [];
+                
+                // Update stats
+                document.getElementById('projectCount').textContent = projects.length;
+                
+                // Calculate average confidence
+                const recommendationsWithConfidence = projects.filter(p => p.avg_confidence !== null);
+                const avgConfidence = recommendationsWithConfidence.length > 0 
+                    ? recommendationsWithConfidence.reduce((sum, p) => sum + p.avg_confidence, 0) / recommendationsWithConfidence.length
+                    : 0;
+                document.getElementById('successRate').textContent = Math.round(avgConfidence) + '%';
+                
+                // Total recommendations count
+                const totalRecs = projects.reduce((sum, p) => sum + (p.recommendation_count || 0), 0);
+                document.getElementById('recommendationCount').textContent = totalRecs;
+                
+                // Display recent projects
+                displayRecentProjects(projects.slice(0, 5));
+                
+                // Load recent activity
+                displayRecentActivity(projects);
+                
+            } catch (error) {
+                console.error('Error loading dashboard data:', error);
+                // Show demo data if API fails
+                showDemoData();
+            }
+        }
+
+        function showDemoData() {
+            // Demo stats
+            document.getElementById('projectCount').textContent = '5';
+            document.getElementById('recommendationCount').textContent = '12';
+            document.getElementById('knowledgeCount').textContent = '8';
+            document.getElementById('successRate').textContent = '85%';
+            
+            // Demo projects
+            const demoProjects = [
+                {
+                    id: 1,
+                    title: 'Community Health Center Initiative',
+                    description: 'Establishing healthcare facility with local community support',
+                    status: 'active',
+                    created_at: '2024-01-15T10:00:00Z',
+                    recommendation_count: 3,
+                    avg_confidence: 87
+                },
+                {
+                    id: 2,
+                    title: 'Cultural Tourism Development',
+                    description: 'Promoting Kerapan Sapi traditions for sustainable tourism',
+                    status: 'planning',
+                    created_at: '2024-01-12T14:30:00Z',
+                    recommendation_count: 2,
+                    avg_confidence: 92
+                }
+            ];
+            
+            displayRecentProjects(demoProjects);
+            displayRecentActivity(demoProjects);
+        }
+
+        function displayRecentProjects(projects) {
+            const container = document.getElementById('recentProjects');
+            
+            if (projects.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center" style="padding: 2rem; color: var(--secondary);">
+                        <p>No projects yet. <a href="projects/new.html" class="btn btn-primary btn-sm">Create your first project</a></p>
+                    </div>
+                `;
+                return;
+            }
+            
+            const projectsHtml = projects.map(project => `
+                <div style="border-bottom: 1px solid var(--border); padding: 1rem 0; last:border-bottom: none;">
+                    <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
+                        <h3 style="font-size: 1rem; margin: 0;">
+                            <a href="projects/view.html?id=${project.id}" style="color: var(--dark); text-decoration: none;">
+                                ${project.title}
+                            </a>
+                        </h3>
+                        ${getStatusBadge(project.status)}
+                    </div>
+                    <p style="font-size: 0.9rem; color: var(--secondary); margin: 0.5rem 0;">
+                        ${project.description}
+                    </p>
+                    <div style="font-size: 0.8rem; color: var(--secondary); display: flex; justify-content: space-between;">
+                        <span>Created: ${formatDate(project.created_at)}</span>
+                        <span>${project.recommendation_count || 0} recommendations</span>
+                    </div>
+                </div>
+            `).join('');
+            
+            container.innerHTML = projectsHtml;
+        }
+
+        function displayRecentActivity(projects) {
+            const container = document.getElementById('recentActivity');
+            
+            const activities = [
+                { type: 'project', action: 'created', item: 'Community Health Center Initiative', time: '2 hours ago' },
+                { type: 'recommendation', action: 'generated', item: 'Cultural engagement analysis', time: '5 hours ago' },
+                { type: 'knowledge', action: 'added', item: 'Kerapan Sapi tradition guide', time: '1 day ago' },
+                { type: 'project', action: 'updated', item: 'Tourism Development Project', time: '2 days ago' },
+                { type: 'recommendation', action: 'exported', item: 'Community stakeholder report (DOCX)', time: '3 days ago' }
+            ];
+            
+            const activityIcons = {
+                project: '📋',
+                recommendation: '💡',
+                knowledge: '📚'
+            };
+            
+            const activitiesHtml = activities.map(activity => `
+                <div style="display: flex; align-items: center; padding: 0.75rem 0; border-bottom: 1px solid var(--border);">
+                    <span style="font-size: 1.2rem; margin-right: 1rem;">${activityIcons[activity.type]}</span>
+                    <div style="flex: 1;">
+                        <p style="margin: 0; color: var(--dark);">
+                            <strong>${activity.action.charAt(0).toUpperCase() + activity.action.slice(1)}</strong> ${activity.item}
+                        </p>
+                        <p style="margin: 0; font-size: 0.8rem; color: var(--secondary);">${activity.time}</p>
+                    </div>
+                </div>
+            `).join('');
+            
+            container.innerHTML = activitiesHtml;
+        }
+
+        function toggleUserMenu() {
+            const dropdown = document.getElementById('userDropdown');
+            dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function logout() {
+            sessionStorage.removeItem('user');
+            window.location.href = 'login.html';
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            const userMenu = document.querySelector('.user-menu');
+            const dropdown = document.getElementById('userDropdown');
+            if (!userMenu.contains(event.target)) {
+                dropdown.style.display = 'none';
+            }
+        });
+    </script>
+
+    <div data-component="footer"></div>
+    
+    <script src="assets/js/tensorflow.min.js"></script>
+    <script src="assets/js/cultural-analysis.js"></script>
+    <script src="includes/components.js"></script>
+</body>
+</html>

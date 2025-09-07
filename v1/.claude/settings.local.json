@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(php:*)",
+      "Bash(cmd.exe /c setup-xampp.bat)",
+      "Bash(python:*)",
+      "Bash(sed:*)",
+      "Bash(py:*)",
+      "Bash(curl:*)",
+      "Bash(find:*)",
+      "Read(//c/xampp/**)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Knowledge Source - Exeloka</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <a href="../dashboard.html" class="logo">Exeloka</a>
+                <nav>
+                    <ul class="nav">
+                        <li><a href="../dashboard.html">Dashboard</a></li>
+                        <li><a href="../projects/">Projects</a></li>
+                        <li><a href="index.html" class="active">Knowledge</a></li>
+                        <li><a href="../recommendations/">Recommendations</a></li>
+                    </ul>
+                </nav>
+                <div class="user-menu">
+                    <button class="user-btn" onclick="toggleUserMenu()">
+                        <span id="userName">User</span> 
+                    </button>
+                    <div id="userDropdown" style="display: none; position: absolute; right: 0; top: 100%; background: white; border: 1px solid var(--border); border-radius: 0.375rem; box-shadow: var(--shadow); min-width: 150px; z-index: 1000;">
+                        <a href="#" onclick="logout()" style="display: block; padding: 0.5rem 1rem; text-decoration: none; color: var(--secondary);">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="container">
+            <div class="page-header">
+                <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                    <button onclick="history.back()" class="btn btn-secondary">
+                        ← Back
+                    </button>
+                    <div>
+                        <h1 class="page-title">Add Knowledge Source</h1>
+                        <p class="page-subtitle">Expand your cultural wisdom database with new sources</p>
+                    </div>
+                </div>
+            </div>
+
+            <div style="max-width: 800px;">
+                <!-- Source Type Selection -->
+                <div class="card">
+                    <h2 class="card-title">Choose Source Type</h2>
+                    <p style="color: var(--secondary); margin-bottom: 1.5rem;">
+                        Select how you want to add this knowledge source
+                    </p>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                        <label class="source-type-card" onclick="selectSourceType('manual')">
+                            <input type="radio" name="sourceType" value="manual" style="display: none;">
+                            <div class="source-type-content">
+                                <div class="source-type-icon">✏️</div>
+                                <h4>Manual Entry</h4>
+                                <p>Type or paste content directly</p>
+                            </div>
+                        </label>
+                        
+                        <label class="source-type-card" onclick="selectSourceType('document')">
+                            <input type="radio" name="sourceType" value="document" style="display: none;">
+                            <div class="source-type-content">
+                                <div class="source-type-icon">📄</div>
+                                <h4>Upload Document</h4>
+                                <p>PDF, DOCX, TXT, MD files</p>
+                            </div>
+                        </label>
+                        
+                        <label class="source-type-card" onclick="selectSourceType('url')">
+                            <input type="radio" name="sourceType" value="url" style="display: none;">
+                            <div class="source-type-content">
+                                <div class="source-type-icon">🔗</div>
+                                <h4>Web URL</h4>
+                                <p>Extract content from websites</p>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Knowledge Source Form -->
+                <form id="knowledgeForm" style="display: none;">
+                    <!-- Basic Information -->
+                    <div class="card">
+                        <h2 class="card-title">Basic Information</h2>
+                        
+                        <div class="form-group">
+                            <label for="title" class="form-label">Source Title *</label>
+                            <input type="text" id="title" name="title" class="form-control" required 
+                                   placeholder="e.g., Kerapan Sapi Cultural Guidelines for Business Events">
+                        </div>
+
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="category" class="form-label">Category *</label>
+                                    <select id="category" name="category" class="form-control form-select" required>
+                                        <option value="">Select category</option>
+                                        <option value="Cultural">Cultural Practices</option>
+                                        <option value="Religious">Religious Guidelines</option>
+                                        <option value="Business">Business Practices</option>
+                                        <option value="Legal">Legal Requirements</option>
+                                        <option value="Historical">Historical Context</option>
+                                        <option value="Language">Language & Communication</option>
+                                        <option value="Community">Community Relations</option>
+                                        <option value="Economic">Economic Patterns</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="tags" class="form-label">Tags</label>
+                                    <input type="text" id="tags" name="tags" class="form-control" 
+                                           placeholder="e.g., sampang, kerapan-sapi, business, cultural">
+                                    <small style="color: var(--secondary); font-size: 0.875rem;">
+                                        Separate tags with commas
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="summary" class="form-label">Summary</label>
+                            <textarea id="summary" name="summary" class="form-control" rows="3"
+                                      placeholder="Brief summary of the knowledge source and its key insights..."></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Content Sections (will be populated based on source type) -->
+                    <div id="contentSection"></div>
+
+                    <!-- Cultural Relevance -->
+                    <div class="card">
+                        <h2 class="card-title">Cultural Relevance</h2>
+                        <p style="color: var(--secondary); margin-bottom: 1.5rem;">
+                            Help categorize this knowledge for better project recommendations
+                        </p>
+                        
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+                            <label class="relevance-item">
+                                <input type="checkbox" name="cultural_relevance" value="Religious Leadership">
+                                <div class="relevance-content">
+                                    <h4>🕌 Religious Leadership</h4>
+                                    <p>Kyai influence and Islamic guidance</p>
+                                </div>
+                            </label>
+                            
+                            <label class="relevance-item">
+                                <input type="checkbox" name="cultural_relevance" value="Traditional Governance">
+                                <div class="relevance-content">
+                                    <h4>🏛️ Traditional Governance</h4>
+                                    <p>Village authority and decision-making</p>
+                                </div>
+                            </label>
+                            
+                            <label class="relevance-item">
+                                <input type="checkbox" name="cultural_relevance" value="Cultural Traditions">
+                                <div class="relevance-content">
+                                    <h4>🎭 Cultural Traditions</h4>
+                                    <p>Kerapan Sapi and local customs</p>
+                                </div>
+                            </label>
+                            
+                            <label class="relevance-item">
+                                <input type="checkbox" name="cultural_relevance" value="Family Networks">
+                                <div class="relevance-content">
+                                    <h4>👨‍👩‍👧‍👦 Family Networks</h4>
+                                    <p>Clan relationships and genealogy</p>
+                                </div>
+                            </label>
+                            
+                            <label class="relevance-item">
+                                <input type="checkbox" name="cultural_relevance" value="Economic Patterns">
+                                <div class="relevance-content">
+                                    <h4>💰 Economic Patterns</h4>
+                                    <p>Trade customs and business practices</p>
+                                </div>
+                            </label>
+                            
+                            <label class="relevance-item">
+                                <input type="checkbox" name="cultural_relevance" value="Youth Engagement">
+                                <div class="relevance-content">
+                                    <h4>🎓 Youth Engagement</h4>
+                                    <p>Modern perspectives and participation</p>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Metadata -->
+                    <div class="card">
+                        <h2 class="card-title">Additional Information</h2>
+                        
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="source_author" class="form-label">Source Author/Organization</label>
+                                    <input type="text" id="source_author" name="source_author" class="form-control" 
+                                           placeholder="e.g., Sampang Cultural Institute">
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="confidence_score" class="form-label">Confidence Level</label>
+                                    <select id="confidence_score" name="confidence_score" class="form-control form-select">
+                                        <option value="90">90% - Very High (Official/Verified)</option>
+                                        <option value="80" selected>80% - High (Reliable Source)</option>
+                                        <option value="70">70% - Good (Community Knowledge)</option>
+                                        <option value="60">60% - Fair (Personal Experience)</option>
+                                        <option value="50">50% - Low (Unverified)</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="notes" class="form-label">Internal Notes</label>
+                            <textarea id="notes" name="notes" class="form-control" rows="2"
+                                      placeholder="Private notes about this source (not shown in recommendations)..."></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="card">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <button type="button" onclick="saveDraft()" class="btn btn-secondary">
+                                💾 Save as Draft
+                            </button>
+                            
+                            <div style="display: flex; gap: 1rem;">
+                                <button type="button" onclick="history.back()" class="btn btn-secondary">
+                                    Cancel
+                                </button>
+                                <button type="submit" class="btn btn-primary">
+                                    <span class="btn-text">✨ Add Knowledge Source</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer style="background: var(--dark); color: white; padding: 2rem 0; text-align: center; margin-top: 4rem;">
+        <div class="container">
+            <p>&copy; 2024 Exeloka. Cultural Wisdom Recommendation System for Sampang, East Java.</p>
+            <p style="margin-top: 0.5rem; opacity: 0.7; font-size: 0.9rem;">
+                Empowering companies to build meaningful relationships with local communities.
+            </p>
+        </div>
+    </footer>
+
+    <script src="../assets/js/api.js"></script>
+    <script>
+        let currentSourceType = null;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check authentication
+            const user = JSON.parse(sessionStorage.getItem('user') || 'null');
+            if (!user) {
+                window.location.href = '../login.html';
+                return;
+            }
+            
+            document.getElementById('userName').textContent = user.full_name || user.email;
+            
+            // Handle form submission
+            document.getElementById('knowledgeForm').addEventListener('submit', handleSubmit);
+        });
+
+        function selectSourceType(type) {
+            currentSourceType = type;
+            
+            // Update UI to show selected type
+            document.querySelectorAll('.source-type-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            event.currentTarget.classList.add('selected');
+            
+            // Show form and populate content section
+            document.getElementById('knowledgeForm').style.display = 'block';
+            populateContentSection(type);
+            
+            // Smooth scroll to form
+            document.getElementById('knowledgeForm').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function populateContentSection(type) {
+            const contentSection = document.getElementById('contentSection');
+            
+            switch(type) {
+                case 'manual':
+                    contentSection.innerHTML = `
+                        <div class="card">
+                            <h2 class="card-title">Content</h2>
+                            <div class="form-group">
+                                <label for="content" class="form-label">Knowledge Content *</label>
+                                <textarea id="content" name="content" class="form-control" rows="8" required
+                                          placeholder="Enter the cultural knowledge, guidelines, or insights..."></textarea>
+                                <small style="color: var(--secondary); font-size: 0.875rem;">
+                                    Provide detailed information about Sampang cultural practices, guidelines, or recommendations.
+                                </small>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'document':
+                    contentSection.innerHTML = `
+                        <div class="card">
+                            <h2 class="card-title">Document Upload</h2>
+                            <div class="form-group">
+                                <label for="file" class="form-label">Select Document *</label>
+                                <input type="file" id="file" name="file" class="form-control" required
+                                       accept=".pdf,.doc,.docx,.txt,.md,.jpg,.png,.jpeg">
+                                <small style="color: var(--secondary); font-size: 0.875rem;">
+                                    Supported formats: PDF, DOCX, TXT, MD, JPG, PNG (Max: 10MB)
+                                </small>
+                            </div>
+                            
+                            <div id="filePreview" style="display: none; margin-top: 1rem; padding: 1rem; background: var(--light); border-radius: 0.375rem;">
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <div>
+                                        <strong id="fileName"></strong>
+                                        <div style="font-size: 0.875rem; color: var(--secondary);">
+                                            Size: <span id="fileSize"></span> | Type: <span id="fileType"></span>
+                                        </div>
+                                    </div>
+                                    <button type="button" onclick="clearFile()" class="btn btn-danger btn-sm">Remove</button>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group" style="margin-top: 1rem;">
+                                <label for="extract_content" class="form-label" style="display: flex; align-items: center; gap: 0.5rem;">
+                                    <input type="checkbox" id="extract_content" name="extract_content" checked>
+                                    Auto-extract text content for analysis
+                                </label>
+                                <small style="color: var(--secondary); font-size: 0.875rem;">
+                                    Automatically process document content for search and recommendations
+                                </small>
+                            </div>
+                        </div>
+                    `;
+                    
+                    // Add file change listener
+                    document.getElementById('file').addEventListener('change', handleFileSelect);
+                    break;
+                    
+                case 'url':
+                    contentSection.innerHTML = `
+                        <div class="card">
+                            <h2 class="card-title">Web Source</h2>
+                            <div class="form-group">
+                                <label for="source_url" class="form-label">Source URL *</label>
+                                <input type="url" id="source_url" name="source_url" class="form-control" required
+                                       placeholder="https://example.com/cultural-guidelines">
+                                <small style="color: var(--secondary); font-size: 0.875rem;">
+                                    Enter the URL of a webpage containing cultural information
+                                </small>
+                            </div>
+                            
+                            <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                                <button type="button" onclick="fetchUrlPreview()" class="btn btn-secondary">
+                                    🔍 Preview Content
+                                </button>
+                                <label style="display: flex; align-items: center; gap: 0.5rem;">
+                                    <input type="checkbox" id="auto_extract" name="auto_extract" checked>
+                                    Auto-extract main content
+                                </label>
+                            </div>
+                            
+                            <div id="urlPreview" style="display: none; margin-top: 1rem; padding: 1rem; background: var(--light); border-radius: 0.375rem;">
+                                <h4>Content Preview:</h4>
+                                <div id="previewContent" style="max-height: 200px; overflow-y: auto; color: var(--secondary);"></div>
+                            </div>
+                            
+                            <div class="form-group" style="margin-top: 1rem;">
+                                <label for="additional_content" class="form-label">Additional Notes</label>
+                                <textarea id="additional_content" name="additional_content" class="form-control" rows="4"
+                                          placeholder="Add your own notes or context about this web source..."></textarea>
+                            </div>
+                        </div>
+                    `;
+                    break;
+            }
+        }
+
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const preview = document.getElementById('filePreview');
+                document.getElementById('fileName').textContent = file.name;
+                document.getElementById('fileSize').textContent = formatFileSize(file.size);
+                document.getElementById('fileType').textContent = file.type || 'Unknown';
+                preview.style.display = 'block';
+            }
+        }
+
+        function clearFile() {
+            document.getElementById('file').value = '';
+            document.getElementById('filePreview').style.display = 'none';
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        async function fetchUrlPreview() {
+            const urlInput = document.getElementById('source_url');
+            const url = urlInput.value.trim();
+            
+            if (!url) {
+                showAlert('Please enter a URL first', 'warning');
+                return;
+            }
+            
+            try {
+                showAlert('Fetching content preview...', 'info');
+                const response = await api.fetchUrlContent(url);
+                
+                const preview = document.getElementById('urlPreview');
+                const previewContent = document.getElementById('previewContent');
+                previewContent.innerHTML = response.data.content.substring(0, 500) + '...';
+                preview.style.display = 'block';
+                
+                // Auto-populate title if empty
+                if (response.data.title && !document.getElementById('title').value) {
+                    document.getElementById('title').value = response.data.title;
+                }
+                
+            } catch (error) {
+                showAlert('Failed to fetch URL content: ' + error.message, 'danger');
+            }
+        }
+
+        async function handleSubmit(e) {
+            e.preventDefault();
+            
+            if (!validateForm()) {
+                return;
+            }
+            
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            const btnText = submitBtn.querySelector('.btn-text');
+            const originalText = btnText.textContent;
+            
+            // Show loading state
+            submitBtn.disabled = true;
+            btnText.textContent = '⏳ Processing...';
+            
+            try {
+                const formData = await collectFormData();
+                const response = await api.addKnowledge(formData);
+                
+                showAlert('Knowledge source added successfully!', 'success');
+                
+                // Redirect to knowledge list
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 1500);
+                
+            } catch (error) {
+                showAlert(error.message || 'Failed to add knowledge source', 'danger');
+                submitBtn.disabled = false;
+                btnText.textContent = originalText;
+            }
+        }
+
+        async function collectFormData() {
+            const form = document.getElementById('knowledgeForm');
+            const formData = new FormData();
+            
+            // Basic fields
+            formData.append('source_type', currentSourceType);
+            formData.append('title', form.title.value);
+            formData.append('category', form.category.value);
+            formData.append('summary', form.summary.value);
+            formData.append('tags', form.tags.value);
+            formData.append('source_author', form.source_author.value);
+            formData.append('confidence_score', form.confidence_score.value);
+            formData.append('notes', form.notes.value);
+            
+            // Cultural relevance
+            const relevanceItems = form.querySelectorAll('input[name="cultural_relevance"]:checked');
+            const culturalRelevance = Array.from(relevanceItems).map(item => item.value);
+            formData.append('cultural_relevance', JSON.stringify(culturalRelevance));
+            
+            // Source-type specific fields
+            switch(currentSourceType) {
+                case 'manual':
+                    formData.append('content', form.content.value);
+                    break;
+                    
+                case 'document':
+                    if (form.file.files[0]) {
+                        formData.append('file', form.file.files[0]);
+                    }
+                    formData.append('extract_content', form.extract_content.checked);
+                    break;
+                    
+                case 'url':
+                    formData.append('source_url', form.source_url.value);
+                    formData.append('auto_extract', form.auto_extract.checked);
+                    if (form.additional_content.value) {
+                        formData.append('additional_content', form.additional_content.value);
+                    }
+                    break;
+            }
+            
+            return formData;
+        }
+
+        function validateForm() {
+            const form = document.getElementById('knowledgeForm');
+            const requiredFields = form.querySelectorAll('[required]');
+            let isValid = true;
+            
+            requiredFields.forEach(field => {
+                if (!field.value.trim()) {
+                    field.classList.add('is-invalid');
+                    isValid = false;
+                } else {
+                    field.classList.remove('is-invalid');
+                }
+            });
+            
+            if (!isValid) {
+                showAlert('Please fill in all required fields', 'danger');
+            }
+            
+            return isValid;
+        }
+
+        async function saveDraft() {
+            try {
+                const formData = await collectFormData();
+                formData.append('status', 'draft');
+                
+                const response = await api.addKnowledge(formData);
+                showAlert('Knowledge source saved as draft', 'success');
+                
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 1000);
+                
+            } catch (error) {
+                showAlert('Failed to save draft: ' + error.message, 'danger');
+            }
+        }
+
+        function toggleUserMenu() {
+            const dropdown = document.getElementById('userDropdown');
+            dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function logout() {
+            sessionStorage.removeItem('user');
+            window.location.href = '../login.html';
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            const userMenu = document.querySelector('.user-menu');
+            const dropdown = document.getElementById('userDropdown');
+            if (!userMenu.contains(event.target)) {
+                dropdown.style.display = 'none';
+            }
+        });
+    </script>
+
+    <style>
+        .source-type-card {
+            display: block;
+            padding: 1.5rem;
+            border: 2px solid var(--border);
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            background: white;
+        }
+        
+        .source-type-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+        
+        .source-type-card.selected {
+            border-color: var(--primary);
+            background: var(--primary-light);
+        }
+        
+        .source-type-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .source-type-content h4 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1.125rem;
+            color: var(--dark);
+        }
+        
+        .source-type-content p {
+            margin: 0;
+            font-size: 0.875rem;
+            color: var(--secondary);
+        }
+        
+        .relevance-item {
+            display: block;
+            padding: 1rem;
+            border: 2px solid var(--border);
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+        
+        .relevance-item:hover {
+            border-color: var(--primary);
+            background: var(--primary-light);
+        }
+        
+        .relevance-item input[type="checkbox"] {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+        }
+        
+        .relevance-item input[type="checkbox"]:checked + .relevance-content {
+            color: var(--primary);
+        }
+        
+        .relevance-item:has(input:checked) {
+            border-color: var(--primary);
+            background: var(--primary-light);
+        }
+        
+        .relevance-content h4 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1rem;
+        }
+        
+        .relevance-content p {
+            margin: 0;
+            font-size: 0.875rem;
+            color: var(--secondary);
+        }
+        
+        .form-control.is-invalid {
+            border-color: var(--danger);
+            box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+        }
+    </style>
+</body>
+</html>

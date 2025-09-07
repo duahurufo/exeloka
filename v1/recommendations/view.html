@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recommendation Details - Exeloka</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <a href="../dashboard.html" class="logo">Exeloka</a>
+                <nav>
+                    <ul class="nav">
+                        <li><a href="../dashboard.html">Dashboard</a></li>
+                        <li><a href="../projects/">Projects</a></li>
+                        <li><a href="../knowledge/">Knowledge</a></li>
+                        <li><a href="index.html" class="active">Recommendations</a></li>
+                    </ul>
+                </nav>
+                <div class="user-menu">
+                    <button class="user-btn" onclick="toggleUserMenu()">
+                        <span id="userName">User</span> ▼
+                    </button>
+                    <div id="userDropdown" style="display: none; position: absolute; right: 0; top: 100%; background: white; border: 1px solid var(--border); border-radius: 0.375rem; box-shadow: var(--shadow); min-width: 150px; z-index: 1000;">
+                        <a href="../profile.html" style="display: block; padding: 0.5rem 1rem; text-decoration: none; color: var(--secondary); border-bottom: 1px solid var(--border);">Profile</a>
+                        <a href="#" onclick="logout()" style="display: block; padding: 0.5rem 1rem; text-decoration: none; color: var(--secondary);">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="container">
+            <!-- Back Navigation -->
+            <div style="margin-bottom: 1rem;">
+                <a href="index.html" class="btn btn-secondary btn-sm">
+                    ← Back to Recommendations
+                </a>
+            </div>
+
+            <!-- Loading State -->
+            <div id="loadingState" style="text-align: center; padding: 2rem;">
+                <div class="loading"></div>
+                <p>Loading recommendation details...</p>
+            </div>
+
+            <!-- Error State -->
+            <div id="errorState" style="display: none; text-align: center; padding: 2rem;">
+                <div style="color: var(--danger); font-size: 1.1rem; margin-bottom: 1rem;">
+                    <strong>Error Loading Recommendation</strong>
+                </div>
+                <p id="errorMessage" style="color: var(--secondary); margin-bottom: 1rem;"></p>
+                <button onclick="loadRecommendation()" class="btn btn-primary">Try Again</button>
+            </div>
+
+            <!-- Main Content -->
+            <div id="recommendationContent" style="display: none;">
+                <!-- Recommendation Header -->
+                <div class="card" style="margin-bottom: 1.5rem;">
+                    <div class="card-header">
+                        <div style="display: flex; justify-content: space-between; align-items: start; flex-wrap: wrap; gap: 1rem;">
+                            <div>
+                                <h1 id="recommendationTitle" class="card-title" style="margin-bottom: 0.5rem; font-size: 1.5rem;"></h1>
+                                <p id="recommendationProject" style="color: var(--secondary); margin-bottom: 0.5rem;"></p>
+                                <div style="display: flex; gap: 1rem; align-items: center;">
+                                    <span id="confidenceScore" class="badge badge-success"></span>
+                                    <span id="recommendationStatus" class="badge badge-warning"></span>
+                                    <span id="recommendationDate" style="color: var(--secondary); font-size: 0.875rem;"></span>
+                                </div>
+                            </div>
+                            <div style="display: flex; gap: 0.5rem;">
+                                <button onclick="implementRecommendation()" class="btn btn-success">
+                                    ✓ Mark as Implemented
+                                </button>
+                                <button onclick="editRecommendation()" class="btn btn-primary">
+                                    ✏️ Edit
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="padding: 1rem;">
+                        <p id="recommendationDescription" style="line-height: 1.6; color: var(--dark);"></p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <!-- Key Insights -->
+                    <div class="col-6">
+                        <div class="card" style="margin-bottom: 1.5rem;">
+                            <div class="card-header">
+                                <h2 class="card-title">🧠 Key Insights</h2>
+                            </div>
+                            <div style="padding: 1rem;">
+                                <ul id="keyInsightsList" style="list-style: none; padding: 0; margin: 0;"></ul>
+                            </div>
+                        </div>
+
+                        <!-- Cultural Context -->
+                        <div class="card" style="margin-bottom: 1.5rem;">
+                            <div class="card-header">
+                                <h2 class="card-title">🏛️ Cultural Context</h2>
+                            </div>
+                            <div style="padding: 1rem;">
+                                <ul id="culturalContextList" style="list-style: none; padding: 0; margin: 0;"></ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recommendations -->
+                    <div class="col-6">
+                        <div class="card" style="margin-bottom: 1.5rem;">
+                            <div class="card-header">
+                                <h2 class="card-title">💡 Recommendations</h2>
+                            </div>
+                            <div style="padding: 1rem;">
+                                <ol id="recommendationsList" style="padding-left: 1.5rem; margin: 0;"></ol>
+                            </div>
+                        </div>
+
+                        <!-- Success Metrics -->
+                        <div class="card" style="margin-bottom: 1.5rem;">
+                            <div class="card-header">
+                                <h2 class="card-title">📊 Success Metrics</h2>
+                            </div>
+                            <div style="padding: 1rem;">
+                                <ul id="successMetricsList" style="list-style: none; padding: 0; margin: 0;"></ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Potential Risks -->
+                <div class="card" style="margin-bottom: 1.5rem;">
+                    <div class="card-header">
+                        <h2 class="card-title">⚠️ Potential Risks & Mitigation</h2>
+                    </div>
+                    <div style="padding: 1rem;">
+                        <ul id="potentialRisksList" style="list-style: none; padding: 0; margin: 0;"></ul>
+                    </div>
+                </div>
+
+                <!-- Implementation Timeline -->
+                <div class="card" style="margin-bottom: 1.5rem;">
+                    <div class="card-header">
+                        <h2 class="card-title">📅 Implementation Timeline</h2>
+                    </div>
+                    <div style="padding: 1rem;">
+                        <div id="implementationTimeline" style="color: var(--secondary);">
+                            <p>Implementation timeline will be generated based on the recommendation complexity and project requirements.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AI Analysis Details -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">🤖 AI Analysis Details</h2>
+                    </div>
+                    <div style="padding: 1rem;">
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                            <div>
+                                <strong style="color: var(--dark);">Analysis Engine:</strong>
+                                <p style="margin: 0; color: var(--secondary);">TensorFlow.js + OpenRouter</p>
+                            </div>
+                            <div>
+                                <strong style="color: var(--dark);">Confidence Score:</strong>
+                                <p id="detailedConfidence" style="margin: 0; color: var(--secondary);"></p>
+                            </div>
+                            <div>
+                                <strong style="color: var(--dark);">Cultural Sensitivity:</strong>
+                                <p style="margin: 0; color: var(--success);">High - Culturally Appropriate</p>
+                            </div>
+                            <div>
+                                <strong style="color: var(--dark);">Evidence Base:</strong>
+                                <p style="margin: 0; color: var(--secondary);">Knowledge Base + Cultural Analysis</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="../assets/js/mock-api.js"></script>
+    <script src="../assets/js/api.js"></script>
+    <script>
+        let currentRecommendationId = null;
+        let currentRecommendation = null;
+
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Check authentication
+            const user = JSON.parse(sessionStorage.getItem('user') || 'null');
+            if (!user) {
+                window.location.href = '../login.html';
+                return;
+            }
+            
+            document.getElementById('userName').textContent = user.full_name || user.email;
+            
+            // Get recommendation ID from URL
+            const urlParams = new URLSearchParams(window.location.search);
+            currentRecommendationId = urlParams.get('id');
+            
+            if (!currentRecommendationId) {
+                showError('No recommendation ID provided');
+                return;
+            }
+            
+            // Load recommendation data
+            await loadRecommendation();
+        });
+
+        async function loadRecommendation() {
+            try {
+                showLoading();
+                
+                // For mock API, get from recommendations list
+                if (window.MockAPI && MockAPI.shouldUseMock()) {
+                    const recommendations = await MockAPI.getRecommendations();
+                    currentRecommendation = recommendations.find(r => r.id === parseInt(currentRecommendationId));
+                    
+                    if (!currentRecommendation) {
+                        // Generate sample recommendation if ID doesn't exist
+                        currentRecommendation = generateSampleRecommendation(currentRecommendationId);
+                    }
+                } else {
+                    // Real API call would be here
+                    const api = new ApiClient();
+                    currentRecommendation = await api.getRecommendation(currentRecommendationId);
+                }
+                
+                displayRecommendation(currentRecommendation);
+                showContent();
+                
+            } catch (error) {
+                console.error('Error loading recommendation:', error);
+                showError(error.message);
+            }
+        }
+
+        function generateSampleRecommendation(id) {
+            return {
+                id: parseInt(id),
+                project_id: 1,
+                title: "Enhanced Cultural Workshop Program",
+                description: "Develop a comprehensive cultural workshop program that combines traditional knowledge transfer with modern engagement techniques to preserve cultural heritage while making it accessible to younger generations.",
+                confidence_score: 0.92,
+                key_insights: [
+                    "Strong community support for cultural preservation initiatives",
+                    "High youth interest when approached through modern engagement methods",
+                    "Available network of skilled traditional practitioners",
+                    "Successful similar programs in neighboring regions provide proven framework"
+                ],
+                recommendations: [
+                    "Establish weekly hands-on workshops with master craftspeople",
+                    "Create digital documentation of traditional techniques",
+                    "Develop mentorship program pairing elders with youth",
+                    "Organize community showcases to celebrate achievements",
+                    "Partner with local schools for curriculum integration"
+                ],
+                potential_risks: [
+                    "Participant dropout due to competing modern activities",
+                    "Difficulty finding adequate venue space for workshops",
+                    "Seasonal availability of traditional materials",
+                    "Generational communication barriers between mentors and participants"
+                ],
+                cultural_context: [
+                    "Respects traditional master-apprentice learning systems",
+                    "Incorporates culturally appropriate teaching methods",
+                    "Maintains authenticity while allowing for adaptation",
+                    "Engages community elders as wisdom keepers"
+                ],
+                success_metrics: [
+                    "Number of active participants retained after 3 months",
+                    "Traditional skills successfully demonstrated by participants",
+                    "Community engagement levels at showcase events",
+                    "Documentation quality and completeness",
+                    "Integration success with educational institutions"
+                ],
+                status: "pending",
+                created_at: new Date().toISOString(),
+                project_title: "Cultural Heritage Preservation"
+            };
+        }
+
+        function displayRecommendation(rec) {
+            // Header information
+            document.getElementById('recommendationTitle').textContent = rec.title;
+            document.getElementById('recommendationProject').textContent = `Project: ${rec.project_title || 'Cultural Heritage Project'}`;
+            document.getElementById('recommendationDescription').textContent = rec.description;
+            
+            // Badges and status
+            const confidence = Math.round(rec.confidence_score * 100);
+            document.getElementById('confidenceScore').textContent = `${confidence}% Confidence`;
+            document.getElementById('confidenceScore').className = `badge ${confidence >= 80 ? 'badge-success' : confidence >= 60 ? 'badge-warning' : 'badge-danger'}`;
+            
+            document.getElementById('recommendationStatus').textContent = rec.status.charAt(0).toUpperCase() + rec.status.slice(1);
+            document.getElementById('recommendationStatus').className = `badge ${rec.status === 'implemented' ? 'badge-success' : rec.status === 'pending' ? 'badge-warning' : 'badge-secondary'}`;
+            
+            document.getElementById('recommendationDate').textContent = new Date(rec.created_at).toLocaleDateString();
+            document.getElementById('detailedConfidence').textContent = `${confidence}% (${confidence >= 80 ? 'High' : confidence >= 60 ? 'Medium' : 'Low'} Confidence)`;
+            
+            // Lists
+            displayList('keyInsightsList', rec.key_insights, '💡');
+            displayList('culturalContextList', rec.cultural_context, '🏛️');
+            displayList('successMetricsList', rec.success_metrics, '📊');
+            displayList('potentialRisksList', rec.potential_risks, '⚠️');
+            displayOrderedList('recommendationsList', rec.recommendations);
+        }
+
+        function displayList(elementId, items, icon) {
+            const element = document.getElementById(elementId);
+            element.innerHTML = items.map(item => 
+                `<li style="padding: 0.5rem 0; border-bottom: 1px solid var(--border-light);">
+                    <span style="margin-right: 0.5rem;">${icon}</span>
+                    ${item}
+                </li>`
+            ).join('');
+        }
+
+        function displayOrderedList(elementId, items) {
+            const element = document.getElementById(elementId);
+            element.innerHTML = items.map(item => `<li style="margin-bottom: 0.5rem;">${item}</li>`).join('');
+        }
+
+        function showLoading() {
+            document.getElementById('loadingState').style.display = 'block';
+            document.getElementById('errorState').style.display = 'none';
+            document.getElementById('recommendationContent').style.display = 'none';
+        }
+
+        function showError(message) {
+            document.getElementById('loadingState').style.display = 'none';
+            document.getElementById('errorState').style.display = 'block';
+            document.getElementById('recommendationContent').style.display = 'none';
+            document.getElementById('errorMessage').textContent = message;
+        }
+
+        function showContent() {
+            document.getElementById('loadingState').style.display = 'none';
+            document.getElementById('errorState').style.display = 'none';
+            document.getElementById('recommendationContent').style.display = 'block';
+        }
+
+        async function implementRecommendation() {
+            if (!currentRecommendation) return;
+            
+            if (confirm('Mark this recommendation as implemented?')) {
+                try {
+                    // Update status
+                    currentRecommendation.status = 'implemented';
+                    document.getElementById('recommendationStatus').textContent = 'Implemented';
+                    document.getElementById('recommendationStatus').className = 'badge badge-success';
+                    
+                    alert('Recommendation marked as implemented!');
+                } catch (error) {
+                    alert('Error updating recommendation status');
+                }
+            }
+        }
+
+        function editRecommendation() {
+            alert('Edit functionality would open a form to modify the recommendation details');
+        }
+
+        function toggleUserMenu() {
+            const dropdown = document.getElementById('userDropdown');
+            dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function logout() {
+            sessionStorage.removeItem('user');
+            window.location.href = '../login.html';
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            const userMenu = document.querySelector('.user-menu');
+            const dropdown = document.getElementById('userDropdown');
+            if (!userMenu.contains(event.target)) {
+                dropdown.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
