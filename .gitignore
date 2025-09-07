@@ -122,3 +122,12 @@ yarn.lock
 
 # TypeScript
 *.tsbuildinfo
+
+# Claude IDE files and deployment guides (keep local only)
+.claude/
+*_Deployment_Guide.md
+*_Setup_Guide.md
+*CPANEL*.md
+*cpanel*.md
+*.zip
+do_not_upload/
